@@ -10,8 +10,8 @@ namespace ProyectoAvanzada
     {
         static void Main(string[] args)
         {
-            // Holi
-            //Funcionoooo
+            LeerArchivo arch = new LeerArchivo("Módulo2", "MóduloInferir");
+            arch.LeerPautas();
         }
     }
 }
