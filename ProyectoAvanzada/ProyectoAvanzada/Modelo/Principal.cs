@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProyectoAvanzada
+namespace ProyectoAvanzada.Modelo
 {
-    class Program
+    class Principal
     {
         static void Main(string[] args)
         {
