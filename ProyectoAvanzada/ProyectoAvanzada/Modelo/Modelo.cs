@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-    class Modelo
+    public class Modelo
     {
+
+        public Modelo() {
+            PruebaDiagnostico diagnostico = new PruebaDiagnostico();
+            diagnostico.TrabajarActividad();
+        }
+
     }
 }
