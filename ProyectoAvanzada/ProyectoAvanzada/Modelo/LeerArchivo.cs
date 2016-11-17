@@ -11,8 +11,7 @@ namespace ProyectoAvanzada
     {
         private String NombreCarpeta, NombreModulo;
         private String Direccion;
-        private int Cantidad;
-        private string[] dirs;
+        private String[] dirs;
         //Sobrecarga de constructores
 
         public LeerArchivo(String NombreCarpeta)
@@ -28,59 +27,19 @@ namespace ProyectoAvanzada
             Direccion = @"Material\Quinto Básico\" + NombreCarpeta + @"\" + NombreModulo;
         }
 
-        //Metodo de leerArchivo
-        public void LeerActividades()
+        public List<String> LeerActividad(int i)
         {
+            List<String> actividad = new List<string>();
             try
             {
-                Direccion = Direccion + @"\Actividades";
-                NumeroArchivos();
 
-                FileStream stream;
-                StreamReader reader;
-                for (int i = 0; i < Cantidad; i++)
+                FileStream stream = new FileStream(dirs[i], FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(stream);
+                String rd;
+                while (reader.Peek() > -1)
                 {
-                    stream = new FileStream(dirs[i], FileMode.Open, FileAccess.Read);
-                    reader = new StreamReader(stream);
-                    String rd;
-                    while (reader.Peek() > -1)
-                    {
-                        rd = reader.ReadLine();
-                        Console.WriteLine(rd);
-
-
-                    }
-                }
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            Console.ReadKey();
-        }
-
-        public void LeerPautas()
-        {
-            try
-            {
-                Direccion = Direccion + @"\Pautas";
-
-                NumeroArchivos();
-
-                FileStream stream;
-                StreamReader reader;
-                for (int i = 0; i < Cantidad; i++)
-                {
-                    stream = new FileStream(dirs[i], FileMode.Open, FileAccess.Read);
-                    reader = new StreamReader(stream);
-                    String rd;
-                    while (reader.Peek() > -1)
-                    {
-                        rd = reader.ReadLine();
-                        Console.WriteLine(rd);
-
-
-                    }
+                    rd = reader.ReadLine();
+                    actividad.Add(rd);
                 }
 
 
@@ -89,21 +48,22 @@ namespace ProyectoAvanzada
             {
                 Console.WriteLine(e.Message);
             }
-            Console.ReadKey();
+            return actividad;
         }
 
-        public void NumeroArchivos()
+        public int CantidadArchivos()
         {
-            try
-            {
-                dirs = Directory.GetFiles(Direccion);
-                Cantidad = dirs.Length;
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            int tamanio = 0;
+            this.dirs = Directory.GetFiles(Direccion);
+            tamanio = dirs.Length;
+            return tamanio;
         }
+
+        public void setDireccion(String url)
+        {
+            this.Direccion = this.Direccion + url;
+        }
+
 
     }
 }
