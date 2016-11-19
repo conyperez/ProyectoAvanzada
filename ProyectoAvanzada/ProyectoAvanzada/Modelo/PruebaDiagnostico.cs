@@ -8,6 +8,7 @@ namespace ProyectoAvanzada.Modelo
 {
     public class PruebaDiagnostico
     {
+        private List<string> actividad = new List<string>();
         private List<string> pauta = new List<string>();
         private List<string> respuestas = new List<string>();
 
@@ -19,45 +20,45 @@ namespace ProyectoAvanzada.Modelo
 
             int cantidad = archivo.CantidadArchivos();
             //Numero de actividad
-            pauta = archivo.LeerActividad(0);
+            actividad = archivo.LeerActividad(0);
 
-            for (int i = 0; i < pauta.Count; i++)
+            for (int i = 0; i < actividad.Count; i++)
             {
                 //Texto
-                if (pauta.ElementAt(i).Equals("T1"))
+                if (actividad.ElementAt(i).Equals("T1"))
                 {
                     Console.WriteLine("Aqui va el Texto 1");
                 }
                 //Preguntas de seleccion
-                if (pauta.ElementAt(i).Equals("$"))
+                if (actividad.ElementAt(i).Equals("$"))
                 {
 
-                    Console.WriteLine(pauta.ElementAt(i + 1));
+                    Console.WriteLine(actividad.ElementAt(i + 1));
                     //Console.WriteLine(i);
 
                     //codigos.Add(actividad.ElementAt(i));
 
                 }
-                if (pauta.ElementAt(i).Equals("$@"))
+                if (actividad.ElementAt(i).Equals("$@"))
                 {
                     //codigos.Add(actividad.ElementAt(i));
-                    Console.WriteLine(pauta.ElementAt(i + 1));
+                    Console.WriteLine(actividad.ElementAt(i + 1));
                     // Console.WriteLine(i);
 
                 }
 
-                if (pauta.ElementAt(i).Equals("@"))
+                if (actividad.ElementAt(i).Equals("@"))
                 {
-                    Console.WriteLine(pauta.ElementAt(i + 1));
+                    Console.WriteLine(actividad.ElementAt(i + 1));
                 }
-                if (pauta.ElementAt(i).Equals("@\\"))
+                if (actividad.ElementAt(i).Equals("@\\"))
                 {
-                    while (pauta.ElementAt(i).Equals("@\\"))
+                    while (actividad.ElementAt(i).Equals("@\\"))
                     {
                         i++;
-                        Console.WriteLine(pauta.ElementAt(i));
+                        Console.WriteLine(actividad.ElementAt(i));
                         i++;
-                        if (i >= pauta.Count)
+                        if (i >= actividad.Count)
                         {
                             break;
                         }
