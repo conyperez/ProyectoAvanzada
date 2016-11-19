@@ -10,9 +10,10 @@ namespace ProyectoAvanzada.Modelo
     {
         private List<string> pauta = new List<string>();
         private List<string> respuestas = new List<string>();
+
         public void TrabajarActividad()
         {
-            LeerArchivo archivo = new LeerArchivo("Evaluación Diagnóstico");
+            LeerArchivo archivo = new LeerArchivo("Quinto Básico", "Evaluación Diagnóstico");
 
             archivo.setDireccion(@"\Actividades");
 
@@ -72,7 +73,7 @@ namespace ProyectoAvanzada.Modelo
 
         public void RevisarActividad()
         {
-            LeerArchivo acvitivdad = new LeerArchivo("Evaluación Diagnóstico");
+            LeerArchivo acvitivdad = new LeerArchivo("Quinto Básico", "Evaluación Diagnóstico");
 
             acvitivdad.setDireccion(@"\Pautas");
 
