@@ -51,6 +51,7 @@ namespace ProyectoAvanzada
             return actividad;
         }
 
+
         public int CantidadArchivos()
         {
             int tamanio = 0;

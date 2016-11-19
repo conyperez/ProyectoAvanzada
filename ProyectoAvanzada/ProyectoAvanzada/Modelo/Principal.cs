@@ -10,7 +10,10 @@ namespace ProyectoAvanzada.Modelo
     {
         static void Main(string[] args)
         {
-            Modelo modelo =new Modelo();
+
+            PruebaDiagnostico diagnostico = new PruebaDiagnostico();
+            diagnostico.TrabajarActividad();
+            diagnostico.RevisarActividad();
         }
     }
 }
