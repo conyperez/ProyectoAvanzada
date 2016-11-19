@@ -16,17 +16,25 @@ namespace ProyectoAvanzada
 
         public LeerArchivo(String Curso, String NombreCarpeta)
         { //Para la prueba de diagnostico
+            this.Curso = Curso;
+            this.NombreCarpeta = NombreCarpeta;
             this.Direccion = @"Material\" + Curso + @"\" + NombreCarpeta;
         }
 
         public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo)
         { //Para el modulo1.
+            this.Curso = Curso;
+            this.NombreCarpeta = NombreCarpeta;
+            this.NombreModulo = NombreModulo;
+            this.TipoModulo = TipoModulo;
             Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo + @"\" + TipoModulo;
         }
 
         public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo)
-        {
-            //Para los demas modulos
+        { //Para los demas modulos
+            this.Curso = Curso;
+            this.NombreCarpeta = NombreCarpeta;
+            this.NombreModulo = NombreModulo;
             Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo;
 
         }
@@ -47,7 +55,7 @@ namespace ProyectoAvanzada
             }
             catch (NullReferenceException e1)
             {
-                Console.WriteLine(e1.Message);
+                Console.WriteLine("Mensaje: "+ e1.Message);
             }
             catch (IOException e)
             {

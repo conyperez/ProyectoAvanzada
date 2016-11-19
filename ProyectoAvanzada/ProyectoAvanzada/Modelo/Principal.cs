@@ -11,6 +11,7 @@ namespace ProyectoAvanzada.Modelo
         static void Main(string[] args)
         {
            Modelo model = new Modelo();
+            Console.ReadKey();
         }
     }
 }

@@ -28,15 +28,13 @@ namespace ProyectoAvanzada.Modelo
         }
 
         public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo)
-        {
-            //Para los demas modulos
+        { //Para los demas modulos
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
             this.NombreModulo = NombreModulo;
-
         }
 
-        public void TrabajarActividad()
+        public List<string> TrabajarActividad()
         {
             LeerArchivo archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
 
@@ -85,34 +83,7 @@ namespace ProyectoAvanzada.Modelo
 
             }
             Console.ReadKey();
+            return respuestas;
         }
-
-        public void RevisarActividad()
-        {
-            LeerArchivo acvitivdad = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
-
-            acvitivdad.setDireccion(@"\Pautas");
-
-            int cantidad = acvitivdad.CantidadArchivos();//elige la pauta que es de la actividad
-
-            //Numero de pauta
-            pauta = acvitivdad.LeerArchivos(0);
-
-            for (int i = 0; i < respuestas.Count; i++)
-            {
-                if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
-                {
-                    Console.WriteLine("Correcto!");
-                }
-                else
-                {
-                    Console.WriteLine("Incorrecto..");
-                }
-
-            }
-
-            Console.ReadKey();
-        }
-
     }
 }
