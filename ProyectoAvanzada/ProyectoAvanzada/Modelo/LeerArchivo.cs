@@ -9,25 +9,29 @@ namespace ProyectoAvanzada
 {
     public class LeerArchivo
     {
-        private String NombreCarpeta, NombreModulo;
+        private String NombreCarpeta, NombreModulo, TipoModulo, Curso;
         private String Direccion;
         private String[] dirs;
         //Sobrecarga de constructores
 
         public LeerArchivo(String Curso, String NombreCarpeta)
         { //Para la prueba de diagnostico
-            this.NombreCarpeta = NombreCarpeta;
-            this.Direccion = @"Material\"+ Curso + @"\" + NombreCarpeta;
+            this.Direccion = @"Material\" + Curso + @"\" + NombreCarpeta;
+        }
+
+        public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo)
+        { //Para el modulo1.
+            Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo + @"\" + TipoModulo;
         }
 
         public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo)
-        { //Para los modulos.
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
-            Direccion = @"Material\"+ Curso + @"\" + NombreCarpeta + @"\" + NombreModulo;
+        {
+            //Para los demas modulos
+            Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo;
+
         }
 
-        public List<String> LeerActividad(int i)
+        public List<String> LeerArchivos(int i)
         {
             List<String> actividad = new List<string>();
             try
@@ -52,7 +56,7 @@ namespace ProyectoAvanzada
             return actividad;
         }
 
-
+        //Indica la cantidad de archivos en un directorio
         public int CantidadArchivos()
         {
             int tamanio = 0;
