@@ -10,8 +10,9 @@ namespace ProyectoAvanzada.Modelo
     {
 
         public Modelo() {
-            PruebaDiagnostico diagnostico = new PruebaDiagnostico();
+            Evaluaciones diagnostico = new Evaluaciones("Quinto Básico", "Módulo1", "Módulo 1.1", "MóduloE");
             diagnostico.TrabajarActividad();
+            diagnostico.RevisarActividad();
         }
 
     }
