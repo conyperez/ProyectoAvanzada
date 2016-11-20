@@ -130,7 +130,7 @@ namespace ProyectoAvanzada.Modelo
             Console.WriteLine(resultadoH1 + " | " + resultadoH2);
         }
 
-        public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado
+        public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado, sSE DEBERIA GUARDAR EL RESULTADO EN ALGUNA LISTA !!!!!
         {
             if (buenas == 0 && malas == 0) { return null; }   
             double calcular = (100 * buenas) / (buenas + malas);
@@ -144,11 +144,38 @@ namespace ProyectoAvanzada.Modelo
             }
         }
 
-        public void determinarNivelLogroModulo(List<string> resultadoModulo)  // Determina nivel de logro del modulo realizado
-        {
-            // Hay que contar duplicados de logrado y no logrado, con ese resultado se saca el porcentaje
-            // y se ve el nivel de logro en el modulo
-            // La lista resultadoModulo no se de donde va a venir...
+        public string determinarNivelLogroModulo(List<string> resultadoModulo)  // Determina nivel de logro del modulo realizado
+        {  // DETERMINAR DE DONDE VA A VENIR ESA LISTA DE RESULTADOMODULO
+
+            // Se determina cuantos logrados y cuantos no logrados por las actividades hay
+            Dictionary<string, int> contador = new Dictionary<string, int>();
+            foreach (string item in resultadoModulo)
+            {
+                if (contador.ContainsKey(item))
+                    contador[item]++;
+                else
+                    contador.Add(item, 1);
+            }
+            int logrado = 0;
+            int nologrado = 0;
+            foreach (KeyValuePair<string, int> item in contador)
+            {
+                if (item.Key.Equals("logrado")) logrado = item.Value;
+                if (item.Key.Equals("no logrado")) nologrado = item.Value;
+                Console.WriteLine(string.Format("{0} - {1}", item.Key, item.Value));
+            }
+            Console.WriteLine("Logrado = " + logrado);
+            Console.WriteLine("No Logrado = " + nologrado);
+
+            string resultado = null;
+            double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
+            // Se determian el nivel de logro en el modulo
+            if (calcular >= 0 || calcular <= 25) resultado = "Por Lograr -";
+            if (calcular >= 26 || calcular <= 50) resultado = "Por Lograr +";
+            if (calcular >= 51 || calcular <= 75) resultado = "Logrado -";
+            if (calcular >= 76 || calcular <= 100) resultado = "Logrado +";
+
+            return resultado;
         }
 
     }
