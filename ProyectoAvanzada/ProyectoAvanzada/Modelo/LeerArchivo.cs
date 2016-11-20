@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ProyectoAvanzada
 {
-    public class LeerArchivo
+  public class LeerArchivo
     {
         private String NombreCarpeta, NombreModulo, TipoModulo, Curso;
         private String Direccion;
@@ -55,7 +55,7 @@ namespace ProyectoAvanzada
             }
             catch (NullReferenceException e1)
             {
-                Console.WriteLine("Mensaje: "+ e1.Message);
+                Console.WriteLine("Mensaje: " + e1.Message);
             }
             catch (IOException e)
             {
