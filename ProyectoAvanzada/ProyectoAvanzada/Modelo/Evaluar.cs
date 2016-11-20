@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-    class Evaluar
+     class Evaluar
     {
         private String Curso, NombreCarpeta, NombreModulo, TipoModulo;
         private List<string> respuestas = new List<string>();
         private List<string> pauta = new List<string>();
+        private LeerArchivo actividad;
 
         public Evaluar(String Curso, String NombreCarpeta, List<string> respuestas)
         { //Para la prueba de diagnostico
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
             this.respuestas = respuestas;
+            actividad = new LeerArchivo(Curso, NombreCarpeta);
         }
 
         public Evaluar(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo, List<string> respuestas)
@@ -26,6 +28,7 @@ namespace ProyectoAvanzada.Modelo
             this.NombreModulo = NombreModulo;
             this.TipoModulo = TipoModulo;
             this.respuestas = respuestas;
+            actividad = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
         }
 
         public Evaluar(String Curso, String NombreCarpeta, String NombreModulo, List<string> respuestas)
@@ -34,12 +37,15 @@ namespace ProyectoAvanzada.Modelo
             this.NombreCarpeta = NombreCarpeta;
             this.NombreModulo = NombreModulo;
             this.respuestas = respuestas;
+            actividad = new LeerArchivo(Curso, NombreCarpeta, NombreModulo);
         }
 
         public void RevisarActividad()
         {
-            LeerArchivo actividad = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
+            
             actividad.setDireccion(@"\Pautas");
+
+            int cantidad = actividad.CantidadArchivos();
 
             //Numero de pauta
             pauta = actividad.LeerArchivos(0);  // DEBERIA HABER UNA VARIABLE CON EL NUMERO DE LA ACTIVIDAD!!!!!!!!!!!!!!!!!!
@@ -98,11 +104,11 @@ namespace ProyectoAvanzada.Modelo
             }
             catch (ArgumentOutOfRangeException e)
             {
-                Console.WriteLine("Mensaje 1: "+ e.Message);
+                Console.WriteLine("Mensaje 1: " + e.Message);
             }
             catch (NullReferenceException e1)
             {
-                Console.WriteLine("Mensaje 2:"+ e1.Message);
+                Console.WriteLine("Mensaje 2:" + e1.Message);
             }
             catch (InvalidOperationException e2)
             {
