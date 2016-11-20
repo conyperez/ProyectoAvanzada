@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-public class Evaluaciones
+    public class Evaluaciones
     {
         private List<string> pauta = new List<string>();
         private List<string> respuestas = new List<string>();
@@ -88,4 +88,5 @@ public class Evaluaciones
             Console.ReadKey();
             return respuestas;
         }
+    }
 }
