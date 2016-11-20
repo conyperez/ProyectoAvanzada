@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-      public class Evaluaciones
+public class Evaluaciones
     {
         private List<string> pauta = new List<string>();
         private List<string> respuestas = new List<string>();
         private List<string> actividad = new List<string>();
         private String Curso, NombreCarpeta, NombreModulo, TipoModulo;
+        private LeerArchivo archivo;
 
         public Evaluaciones(String Curso, String NombreCarpeta)
         { //Para la prueba de diagnostico
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
+            archivo = new LeerArchivo(Curso, NombreCarpeta);
         }
 
         public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo)
@@ -25,6 +27,7 @@ namespace ProyectoAvanzada.Modelo
             this.NombreCarpeta = NombreCarpeta;
             this.NombreModulo = NombreModulo;
             this.TipoModulo = TipoModulo;
+            archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
         }
 
         public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo)
@@ -32,11 +35,11 @@ namespace ProyectoAvanzada.Modelo
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
             this.NombreModulo = NombreModulo;
+            archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo);
         }
 
         public List<string> TrabajarActividad()
         {
-            LeerArchivo archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
 
             archivo.setDireccion(@"\Actividades");
 
@@ -85,5 +88,4 @@ namespace ProyectoAvanzada.Modelo
             Console.ReadKey();
             return respuestas;
         }
-    }
 }
