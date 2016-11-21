@@ -13,28 +13,32 @@ namespace ProyectoAvanzada.Modelo
         private List<string> actividad = new List<string>();
         private String Curso, NombreCarpeta, NombreModulo, TipoModulo;
         private LeerArchivo archivo;
+        private int numAct;
 
-        public Evaluaciones(String Curso, String NombreCarpeta)
+        public Evaluaciones(String Curso, String NombreCarpeta, int numAct)
         { //Para la prueba de diagnostico
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
+            this.numAct = numAct;
             archivo = new LeerArchivo(Curso, NombreCarpeta);
         }
 
-        public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo)
+        public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo, int numAct)
         { //Para el modulo1.
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
             this.NombreModulo = NombreModulo;
             this.TipoModulo = TipoModulo;
+            this.numAct = numAct;
             archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
         }
 
-        public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo)
+        public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo, int numAct)
         { //Para los demas modulos
             this.Curso = Curso;
             this.NombreCarpeta = NombreCarpeta;
             this.NombreModulo = NombreModulo;
+            this.numAct = numAct;
             archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo);
         }
 
@@ -45,7 +49,7 @@ namespace ProyectoAvanzada.Modelo
 
             int cantidad = archivo.CantidadArchivos();
             //Numero de actividad
-            actividad = archivo.LeerArchivos(0); //elige la actividad que se va a realizar
+            actividad = archivo.LeerArchivos(numAct); // Elige la actividad que se va a realizar
 
             for (int i = 0; i < actividad.Count; i++)
             {
