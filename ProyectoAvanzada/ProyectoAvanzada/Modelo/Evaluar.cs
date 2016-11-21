@@ -134,7 +134,7 @@ namespace ProyectoAvanzada.Modelo
             Console.WriteLine(resultadoH1 + " | " + resultadoH2);
         }
 
-        public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado, sSE DEBERIA GUARDAR EL RESULTADO EN ALGUNA LISTA !!!!!
+        public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado, SE DEBERIA GUARDAR EL RESULTADO EN ALGUNA LISTA !!!!!
         {
             if (buenas == 0 && malas == 0) { return null; }   
             double calcular = (100 * buenas) / (buenas + malas);
@@ -149,7 +149,7 @@ namespace ProyectoAvanzada.Modelo
         }
 
         public string determinarNivelLogroModulo(List<string> resultadoModulo)  // Determina nivel de logro del modulo realizado
-        {  // DETERMINAR DE DONDE VA A VENIR ESA LISTA DE RESULTADOMODULO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        {  // DETERMINAR DE DONDE VA A VENIR ESA LISTA DE resultadoModulo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             // Se determina cuantos logrados y cuantos no logrados por las actividades hay
             Dictionary<string, int> contador = new Dictionary<string, int>();
@@ -173,6 +173,7 @@ namespace ProyectoAvanzada.Modelo
 
             string resultado = null;
             double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
+            
             // Se determian el nivel de logro en el modulo
             if (calcular >= 0 || calcular <= 25) resultado = "Por Lograr -";
             if (calcular >= 26 || calcular <= 50) resultado = "Por Lograr +";
