@@ -21,7 +21,6 @@ namespace ProyectoAvanzada.Modelo
 
         public void RevisarActividad(List<String> respuestas, int numAct)
         {
-
             //Numero de pauta
             pauta = actividad.LeerArchivos(numAct);
             this.respuestas = respuestas;
@@ -43,9 +42,7 @@ namespace ProyectoAvanzada.Modelo
                         if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
                         {
                             revision.Add("C");
-                        }
-                        else
-                        {
+                        } else {
                             revision.Add("I");
                         }
                     }
@@ -55,9 +52,7 @@ namespace ProyectoAvanzada.Modelo
                         if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
                         {
                             correcta++;
-                        }
-                        else
-                        {
+                        } else {
                             incorrecta++;
                         }
                     }
@@ -101,9 +96,6 @@ namespace ProyectoAvanzada.Modelo
                     }
                 }
             }
-            /* ESAS VARIABLES SE TIENE QUE GUARDAR EN ALGUN LADO PARA IRLAS SUMANDO 
-               PORQUE CON LA SUMA SE SACA EL PORCENTAJE Y SE VE CUAL HABILIDAD SE LE DA MAS ENFASIS
-               Y CUANDO SE TENGA EL TOTAL SE PUEDE UTILIZAR LO SIGUIENTE: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
             resultadoH1 = determinarNivelLogroActividad(H1C, H1I);
             resultadoH2 = determinarNivelLogroActividad(H2C, H2I);
             Console.WriteLine(resultadoH1 + " | " + resultadoH2);
@@ -157,15 +149,20 @@ namespace ProyectoAvanzada.Modelo
 
             return resultado;
         }
+
         public void setArchivo(LeerArchivo archivos_actividad)
         {
             this.actividad = archivos_actividad;
         }
+
         public void setNombreCarpeta(String NombreCarpeta) {
             this.NombreCarpeta = NombreCarpeta;
         }
+
         public String getResultadoH1() { return resultadoH1; }
+
         public String getResultadoH2() { return resultadoH2; }
+
         public double getPorcentH() { return porcentaje_actividad; }
     }
 
