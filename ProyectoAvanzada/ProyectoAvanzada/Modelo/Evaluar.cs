@@ -6,52 +6,25 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-     class Evaluar
+    class Evaluar
     {
-        private String Curso, NombreCarpeta, NombreModulo, TipoModulo;
+        private String NombreCarpeta;
         private List<string> respuestas = new List<string>();
         private List<string> pauta = new List<string>();
         private LeerArchivo actividad;
-        private int numAct;
+        private String resultadoH1, resultadoH2;
+        private double porcentaje_actividad;
+
         private int correcta, incorrecta;
 
-        public Evaluar(String Curso, String NombreCarpeta, List<string> respuestas, int numAct)
-        { //Para la prueba de diagnostico
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.respuestas = respuestas;
-            this.numAct = numAct;
-            actividad = new LeerArchivo(Curso, NombreCarpeta);
-        }
+        public Evaluar() { }
 
-        public Evaluar(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo, List<string> respuestas, int numAct)
-        { //Para el modulo 1.
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
-            this.TipoModulo = TipoModulo;
-            this.respuestas = respuestas;
-            this.numAct = numAct;
-            actividad = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
-        }
-
-        public Evaluar(String Curso, String NombreCarpeta, String NombreModulo, List<string> respuestas, int numAct)
-        { //Para los demas modulos
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
-            this.respuestas = respuestas;
-            this.numAct = numAct;
-            actividad = new LeerArchivo(Curso, NombreCarpeta, NombreModulo);
-        }
-
-        public void RevisarActividad()
+        public void RevisarActividad(List<String> respuestas, int numAct)
         {
-            actividad.setDireccion(@"\Pautas");
-            int cantidad = actividad.CantidadArchivos();
 
             //Numero de pauta
-            pauta = actividad.LeerArchivos(numAct); 
+            pauta = actividad.LeerArchivos(numAct);
+            this.respuestas = respuestas;
             try {
                 string resultado = null;
                 // Se toma la primera linea donde se encuentran las habilidades de la act
@@ -93,6 +66,8 @@ namespace ProyectoAvanzada.Modelo
                     calcularDiagnostico(revision, habilidad);
                 } else {
                     resultado = determinarNivelLogroActividad(correcta, incorrecta);
+                    Console.WriteLine(correcta);
+                    Console.WriteLine(incorrecta);
                     Console.WriteLine("Resultado: " + resultado);
                 }
                 Console.ReadKey();
@@ -106,14 +81,14 @@ namespace ProyectoAvanzada.Modelo
         }
 
         // Calcula las respuestas correctas e incorrectas que se obtuvo en una actividad del diagnostico
-        public void calcularDiagnostico(List<string> revision, String[] habilidad) 
+        public void calcularDiagnostico(List<string> revision, String[] habilidad)
         {
             int H1C = 0, H1I = 0, H2C = 0, H2I = 0;    // C: correctas ; I:incorrectas
-            for(int i=0; i<revision.Count; i++)
+            for (int i = 0; i < revision.Count; i++)
             {
-                if(habilidad[i] == "H1")  // H1 = Extraer información explícita
+                if (habilidad[i] == "H1")  // H1 = Extraer información explícita
                 {
-                    if(revision.ElementAt(i) == "C") {
+                    if (revision.ElementAt(i) == "C") {
                         H1C++;
                     } else {
                         if (revision.ElementAt(i) == "I") { H1I++; }
@@ -129,16 +104,16 @@ namespace ProyectoAvanzada.Modelo
             /* ESAS VARIABLES SE TIENE QUE GUARDAR EN ALGUN LADO PARA IRLAS SUMANDO 
                PORQUE CON LA SUMA SE SACA EL PORCENTAJE Y SE VE CUAL HABILIDAD SE LE DA MAS ENFASIS
                Y CUANDO SE TENGA EL TOTAL SE PUEDE UTILIZAR LO SIGUIENTE: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-            string resultadoH1 = determinarNivelLogroActividad(H1C, H1I);
-            string resultadoH2 = determinarNivelLogroActividad(H2C, H2I);
+            resultadoH1 = determinarNivelLogroActividad(H1C, H1I);
+            resultadoH2 = determinarNivelLogroActividad(H2C, H2I);
             Console.WriteLine(resultadoH1 + " | " + resultadoH2);
         }
 
         public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado, SE DEBERIA GUARDAR EL RESULTADO EN ALGUNA LISTA !!!!!
         {
-            if (buenas == 0 && malas == 0) { return null; }   
-            double calcular = (100 * buenas) / (buenas + malas);
-            if (calcular > 60)
+            if (buenas == 0 && malas == 0) { return null; }
+            porcentaje_actividad = (100 * buenas) / (buenas + malas);
+            if (porcentaje_actividad > 60)
             {
                 return "Logrado";
             }
@@ -173,7 +148,7 @@ namespace ProyectoAvanzada.Modelo
 
             string resultado = null;
             double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
-            
+
             // Se determian el nivel de logro en el modulo
             if (calcular >= 0 || calcular <= 25) resultado = "Por Lograr -";
             if (calcular >= 26 || calcular <= 50) resultado = "Por Lograr +";
@@ -182,6 +157,16 @@ namespace ProyectoAvanzada.Modelo
 
             return resultado;
         }
-
+        public void setArchivo(LeerArchivo archivos_actividad)
+        {
+            this.actividad = archivos_actividad;
+        }
+        public void setNombreCarpeta(String NombreCarpeta) {
+            this.NombreCarpeta = NombreCarpeta;
+        }
+        public String getResultadoH1() { return resultadoH1; }
+        public String getResultadoH2() { return resultadoH2; }
+        public double getPorcentH() { return porcentaje_actividad; }
     }
+
 }

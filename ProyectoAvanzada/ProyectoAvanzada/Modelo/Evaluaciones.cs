@@ -11,52 +11,19 @@ namespace ProyectoAvanzada.Modelo
         private List<string> pauta = new List<string>();
         private List<string> respuestas = new List<string>();
         private List<string> actividad = new List<string>();
-        private String Curso, NombreCarpeta, NombreModulo, TipoModulo;
         private LeerArchivo archivo;
-        private int numAct;
 
-        public Evaluaciones(String Curso, String NombreCarpeta, int numAct)
-        { //Para la prueba de diagnostico
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.numAct = numAct;
-            archivo = new LeerArchivo(Curso, NombreCarpeta);
-        }
-
-        public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo, int numAct)
-        { //Para el modulo1.
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
-            this.TipoModulo = TipoModulo;
-            this.numAct = numAct;
-            archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo, TipoModulo);
-        }
-
-        public Evaluaciones(String Curso, String NombreCarpeta, String NombreModulo, int numAct)
-        { //Para los demas modulos
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
-            this.numAct = numAct;
-            archivo = new LeerArchivo(Curso, NombreCarpeta, NombreModulo);
-        }
-
-        public List<string> TrabajarActividad()
+        public List<String> TrabajaActividad(int numActividad)
         {
+            List<String> respuestas = new List<string>();
 
-            archivo.setDireccion(@"\Actividades");
-
-            int cantidad = archivo.CantidadArchivos();
-            //Numero de actividad
-            actividad = archivo.LeerArchivos(numAct); // Elige la actividad que se va a realizar
-
+            actividad = archivo.LeerArchivos(numActividad);//Se almacena la actividad establecida
             for (int i = 0; i < actividad.Count; i++)
             {
                 //Texto
                 if (actividad.ElementAt(i).Equals("T1"))
                 {
-                    Console.WriteLine("Aqui va el Texto 1");
+                    Console.WriteLine("Aqui va el Texto");
                 }
                 //Preguntas de seleccion
                 if (actividad.ElementAt(i).Equals("$"))
@@ -83,14 +50,29 @@ namespace ProyectoAvanzada.Modelo
                             break;
                         }
                     }
-
                     i--;
                     respuestas.Add(Console.ReadLine());
                 }
-
+                if (actividad.ElementAt(i).Equals("$#"))//Preguntas de seleccion (mas de una)
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("#"))
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("#\\"))
+                {
+                    //Aqui va la pregunta de Seleccion multiple
+                }
             }
             Console.ReadKey();
             return respuestas;
+
+        }
+        public void setArchivo(LeerArchivo archivos_actividad)
+        {
+            this.archivo = archivos_actividad;
         }
     }
 }

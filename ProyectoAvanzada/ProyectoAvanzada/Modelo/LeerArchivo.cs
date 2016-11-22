@@ -7,41 +7,30 @@ using System.IO;
 
 namespace ProyectoAvanzada
 {
-  public class LeerArchivo
+    /*Aqui es donde se sacan los archivos para las evaluaciones,pautas,imagenes,etc.*/
+    public class LeerArchivo
     {
-        private String NombreCarpeta, NombreModulo, TipoModulo, Curso;
         private String Direccion;
-        private String[] dirs;
-        //Sobrecarga de constructores
 
-        public LeerArchivo(String Curso, String NombreCarpeta)
-        { //Para la prueba de diagnostico
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.Direccion = @"Material\" + Curso + @"\" + NombreCarpeta;
+        public LeerArchivo(String Curso, String NombreCarpeta)//Para la prueba de diagnostico
+        {
+            Direccion = @"Material\" + Curso + @"\" + NombreCarpeta;
         }
 
-        public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo, String TipoModulo)
-        { //Para el modulo1.
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
-            this.TipoModulo = TipoModulo;
-            Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo + @"\" + TipoModulo;
+        public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo, String TipoMoodulo)//Para el Módulo 1.
+        {
+            Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo + @"\" + TipoMoodulo;
         }
 
-        public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo)
-        { //Para los demas modulos
-            this.Curso = Curso;
-            this.NombreCarpeta = NombreCarpeta;
-            this.NombreModulo = NombreModulo;
+        public LeerArchivo(String Curso, String NombreCarpeta, String NombreModulo)//Para los otros modulos
+        {
             Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo;
-
         }
 
         public List<String> LeerArchivos(int i)
         {
-            List<String> actividad = new List<string>();
+            List<String> archivo = new List<string>();
+            String[] dirs = Directory.GetFiles(Direccion); //Cantidad de archivos en la carpeta
             try
             {
                 FileStream stream = new FileStream(dirs[i], FileMode.Open, FileAccess.Read);
@@ -50,41 +39,26 @@ namespace ProyectoAvanzada
                 while (reader.Peek() > -1)
                 {
                     rd = reader.ReadLine();
-                    actividad.Add(rd);
+                    archivo.Add(rd);
                 }
             }
             catch (NullReferenceException e1)
             {
-                Console.WriteLine("Mensaje: " + e1.Message);
+
+                Console.WriteLine(e1.Message);
             }
             catch (IOException e)
             {
                 Console.WriteLine(e.Message);
             }
-            return actividad;
-        }
+            return archivo;
 
-        //Indica la cantidad de archivos en un directorio
-        public int CantidadArchivos()
-        {
-            int tamanio = 0;
-            try
-            {
-                this.dirs = Directory.GetFiles(Direccion);
-                tamanio = dirs.Length;
-            }
-            catch (DirectoryNotFoundException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            return tamanio;
         }
 
         public void setDireccion(String url)
         {
-            this.Direccion = this.Direccion + url;
+            this.Direccion = Direccion + url;
         }
-
 
     }
 }
