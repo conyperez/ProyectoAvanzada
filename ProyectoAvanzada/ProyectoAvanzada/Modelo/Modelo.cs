@@ -8,11 +8,13 @@ namespace ProyectoAvanzada.Modelo
 {
     public class Modelo
     {
-        private String ResultadoH1, ResultadoH2;
+        private String ResultadoH1=null, ResultadoH2=null; //Almaceno si es logrado o no logrado en cada habiliad.
+        private Double Porcent_Act_Diag;
         public Modelo() {
-            /*
-            Evaluaciones diagnostico = new Evaluaciones();
-            Diagnostico evaluar = new Diagnostico();
+
+            Evaluaciones evaluacion = new Evaluaciones();
+            Diagnostico diagnostico = new Diagnostico();
+            
 
             LeerArchivo archivos_actividad = new LeerArchivo("Quinto Básico", "Evaluación Diagnóstico");
             LeerArchivo archivos_pauta = new LeerArchivo("Quinto Básico", "Evaluación Diagnóstico");
@@ -20,33 +22,23 @@ namespace ProyectoAvanzada.Modelo
             archivos_actividad.setDireccion(@"\Actividades");
             archivos_pauta.setDireccion(@"\Pautas");
 
-            diagnostico.setArchivo(archivos_actividad);
-            evaluar.setArchivo(archivos_pauta);
-            evaluar.setNombreCarpeta("Quinto Básico");
+            evaluacion.setArchivo(archivos_actividad);
+            diagnostico.setArchivo(archivos_pauta);
+            diagnostico.setNombreCarpeta("Evaluación Diagnóstico");
 
-            List<string> respuestas = diagnostico.TrabajaActividad(0);
+            List<string> respuestas = evaluacion.TrabajaActividad(0);
 
-            evaluar.RevisarActividad(respuestas,0);
-            Console.ReadKey();*/
+            diagnostico.RevisarActividad(respuestas,0);
 
-            Evaluaciones modulo = new Evaluaciones();
-            Modulo evaluar = new Modulo();
 
-            LeerArchivo archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", "MóduloE");
-            LeerArchivo archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", "MóduloE");
+            ResultadoH1 = diagnostico.getResultadoH1();
+            Console.WriteLine("Habilidad 1:"+ResultadoH1);
+            ResultadoH2 = diagnostico.getResultadoH2();
+            Console.WriteLine("Habilidad 2:"+ResultadoH2);
+            Porcent_Act_Diag = diagnostico.getPorcentH();
+            Console.WriteLine(Porcent_Act_Diag+"%");
 
-            archivos_actividad.setDireccion(@"\Actividades");
-            archivos_pauta.setDireccion(@"\Pautas");
-
-            modulo.setArchivo(archivos_actividad);
-            evaluar.setArchivo(archivos_pauta);
-            evaluar.setNombreCarpeta("Quinto Básico");
-
-            List<string> respuestas = modulo.TrabajaActividad(0);
-
-            evaluar.RevisarActividad(respuestas, 0);
             Console.ReadKey();
-
         }
 
     }
