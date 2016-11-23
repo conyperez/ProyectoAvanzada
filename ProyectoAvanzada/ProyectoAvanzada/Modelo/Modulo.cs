@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,15 +15,15 @@ namespace ProyectoAvanzada.Modelo
         private double porcentaje_actividad;
         private int correcta, incorrecta;
 
-        public Modulo() { }
+        public Modulo() { } 
 
-        public void RevisarActividad(List<String> respuestas, int numAct)
+        public string RevisarActividad(List<String> respuestas, int numAct)
         {
             pauta = actividad.LeerArchivos(numAct);
             this.respuestas = respuestas;
+            string resultado = null;
             try
             {
-                string resultado = null;
                 // Se toma la primera linea donde se encuentran las habilidades de la act
                 string habilidades = pauta.ElementAt(0);
                 Console.WriteLine(habilidades);
@@ -54,6 +54,7 @@ namespace ProyectoAvanzada.Modelo
             } catch (InvalidOperationException e2) {
                 Console.WriteLine("Mensaje 3:" + e2.Message);
             }
+            return resultado;
         }
 
         public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado, SE DEBERIA GUARDAR EL RESULTADO EN ALGUNA LISTA !!!!!
@@ -71,16 +72,19 @@ namespace ProyectoAvanzada.Modelo
         }
 
         public string determinarNivelLogroModulo(List<string> resultadoModulo)  // Determina nivel de logro del modulo realizado
-        {  // DETERMINAR DE DONDE VA A VENIR ESA LISTA DE resultadoModulo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        {  
             // Se determina cuantos logrados y cuantos no logrados por las actividades hay
             Dictionary<string, int> contador = new Dictionary<string, int>();
             foreach (string item in resultadoModulo)
             {
-                if (contador.ContainsKey(item))
-                    contador[item]++;
-                else
-                    contador.Add(item, 1);
+                try {
+                    if (contador.ContainsKey(item))
+                        contador[item]++;
+                    else
+                        contador.Add(item, 1);
+                } catch (ArgumentNullException e) {
+                    Console.WriteLine(e.Message);
+                }
             }
             int logrado = 0;
             int nologrado = 0;
@@ -94,6 +98,7 @@ namespace ProyectoAvanzada.Modelo
             Console.WriteLine("No Logrado = " + nologrado);
 
             string resultado = null;
+            if (logrado == 0 && nologrado == 0) return null;
             double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
 
             // Se determian el nivel de logro en el modulo
@@ -103,6 +108,23 @@ namespace ProyectoAvanzada.Modelo
             if (calcular >= 76 || calcular <= 100) resultado = "Logrado +";
 
             return resultado;
+        }
+
+        public string determinarProgreso(string nivelLogro)
+        {
+            if (nivelLogro.Equals("Por Lograr -") || nivelLogro.Equals("Por Lograr +"))
+            {
+                return "Repite";
+            }
+            if (nivelLogro.Equals("Logrado -"))
+            {
+                return "Remedial";
+            }
+            if (nivelLogro.Equals("Logrado +"))
+            {
+                return "Siguiente";
+            }
+            return null;
         }
 
         public void setArchivo(LeerArchivo archivos_actividad)
