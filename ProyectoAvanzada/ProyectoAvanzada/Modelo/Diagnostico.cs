@@ -12,8 +12,8 @@ namespace ProyectoAvanzada.Modelo
         private List<string> respuestas = new List<string>();
         private List<string> pauta = new List<string>();
         private LeerArchivo actividad;
-        private String resultadoH1, resultadoH2;
         private double porcentaje_actividad;
+        private int H1C=0, H1I=0, H2C=0, H2I=0; // C: correctas ; I:incorrectas
 
         public Diagnostico() { }
 
@@ -22,7 +22,8 @@ namespace ProyectoAvanzada.Modelo
             //Numero de pauta
             pauta = actividad.LeerArchivos(numAct);
             this.respuestas = respuestas;
-            try {
+            try
+            {
                 // Se toma la primera linea donde se encuentran las habilidades de la act
                 string habilidades = pauta.ElementAt(0);
                 Console.WriteLine(habilidades);
@@ -35,18 +36,26 @@ namespace ProyectoAvanzada.Modelo
                     if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
                     {
                         revision.Add("C");
-                    } else {
+                    }
+                    else
+                    {
                         revision.Add("I");
                     }
                 }
                 // Se determina el resultado
                 calcularDiagnostico(revision, habilidad);
                 Console.ReadKey();
-            } catch (ArgumentOutOfRangeException e) {
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
                 Console.WriteLine("Mensaje 1: " + e.Message);
-            } catch (NullReferenceException e1) {
+            }
+            catch (NullReferenceException e1)
+            {
                 Console.WriteLine("Mensaje 2:" + e1.Message);
-            } catch (InvalidOperationException e2) {
+            }
+            catch (InvalidOperationException e2)
+            {
                 Console.WriteLine("Mensaje 3:" + e2.Message);
             }
         }
@@ -54,27 +63,31 @@ namespace ProyectoAvanzada.Modelo
         // Calcula las respuestas correctas e incorrectas que se obtuvo en una actividad del diagnostico
         public void calcularDiagnostico(List<string> revision, String[] habilidad)
         {
-            int H1C = 0, H1I = 0, H2C = 0, H2I = 0;    // C: correctas ; I:incorrectas
             for (int i = 0; i < revision.Count; i++)
             {
                 if (habilidad[i] == "H1")  // H1 = Extraer información explícita
                 {
-                    if (revision.ElementAt(i) == "C") {
+                    if (revision.ElementAt(i) == "C")
+                    {
                         H1C++;
-                    } else {
+                    }
+                    else
+                    {
                         if (revision.ElementAt(i) == "I") { H1I++; }
                     }
-                } else { // Es H2 = Análisis de la forma del texto
-                    if (revision.ElementAt(i) == "C") {
+                }
+                else
+                { // Es H2 = Análisis de la forma del texto
+                    if (revision.ElementAt(i) == "C")
+                    {
                         H2C++;
-                    } else {
+                    }
+                    else
+                    {
                         if (revision.ElementAt(i) == "I") { H2I++; }
                     }
                 }
             }
-            resultadoH1 = determinarNivelLogroHabilidad(H1C, H1I);
-            resultadoH2 = determinarNivelLogroHabilidad(H2C, H2I);
-            Console.WriteLine(resultadoH1 + " | " + resultadoH2);
         }
 
         public string determinarNivelLogroHabilidad(int buenas, int malas) // Determina Logrado o No Logrado de la habilidad
@@ -96,15 +109,17 @@ namespace ProyectoAvanzada.Modelo
             this.actividad = archivos_actividad;
         }
 
-        public void setNombreCarpeta(String NombreCarpeta) {
+        public void setNombreCarpeta(String NombreCarpeta)
+        {
             this.NombreCarpeta = NombreCarpeta;
         }
 
-        public String getResultadoH1() { return resultadoH1; }
-
-        public String getResultadoH2() { return resultadoH2; }
-
         public double getPorcentH() { return porcentaje_actividad; }
+
+        public int getH1C() { return H1C; }
+        public int getH1I() { return H1I; }
+        public int getH2C() { return H2C; }
+        public int getH2I() { return H2I; }
     }
 
 }
