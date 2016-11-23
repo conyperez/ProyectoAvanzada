@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +27,14 @@ namespace ProyectoAvanzada
             Direccion = @"Material\" + Curso + @"\" + NombreCarpeta + @"\" + NombreModulo;
         }
 
+        public LeerArchivo() { }
+
         public List<String> LeerArchivos(int i)
         {
             List<String> archivo = new List<string>();
-            String[] dirs = Directory.GetFiles(Direccion); //Cantidad de archivos en la carpeta
             try
             {
+                String[] dirs = Directory.GetFiles(Direccion); //Cantidad de archivos en la carpeta
                 FileStream stream = new FileStream(dirs[i], FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(stream);
                 String rd;
@@ -60,11 +62,13 @@ namespace ProyectoAvanzada
             this.Direccion = Direccion + url;
         }
 
-        public int getCantArchivos() {
+        public int getCantArchivos()
+        {
             int cantidad;
             string[] actividad = Directory.GetFiles(Direccion);
             cantidad = actividad.Length;
             return cantidad;
         }
+
     }
 }
