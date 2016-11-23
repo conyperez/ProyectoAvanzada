@@ -35,9 +35,7 @@ namespace ProyectoAvanzada.Modelo
             Console.WriteLine(TrabajoDiagnostico());
 
 
-            ResultadoH1 = diagnostico.getResultadoH1();
             Console.WriteLine("Habilidad 1:"+ResultadoH1);
-            ResultadoH2 = diagnostico.getResultadoH2();
             Console.WriteLine("Habilidad 2:"+ResultadoH2);
             Porcent_Act_Diag = diagnostico.getPorcentH();
             Console.WriteLine(Porcent_Act_Diag+"%");
