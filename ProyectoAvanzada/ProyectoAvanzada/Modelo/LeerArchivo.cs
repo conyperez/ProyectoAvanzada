@@ -60,5 +60,11 @@ namespace ProyectoAvanzada
             this.Direccion = Direccion + url;
         }
 
+        public int getCantArchivos() {
+            int cantidad;
+            string[] actividad = Directory.GetFiles(Direccion);
+            cantidad = actividad.Length;
+            return cantidad;
+        }
     }
 }
