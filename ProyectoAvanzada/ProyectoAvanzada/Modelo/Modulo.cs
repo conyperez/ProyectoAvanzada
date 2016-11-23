@@ -6,25 +6,23 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-    class Evaluar
+    class Modulo
     {
         private String NombreCarpeta;
         private List<string> respuestas = new List<string>();
         private List<string> pauta = new List<string>();
         private LeerArchivo actividad;
-        private String resultadoH1, resultadoH2;
         private double porcentaje_actividad;
-
         private int correcta, incorrecta;
 
-        public Evaluar() { }
+        public Modulo() { }
 
         public void RevisarActividad(List<String> respuestas, int numAct)
         {
-            //Numero de pauta
             pauta = actividad.LeerArchivos(numAct);
             this.respuestas = respuestas;
-            try {
+            try
+            {
                 string resultado = null;
                 // Se toma la primera linea donde se encuentran las habilidades de la act
                 string habilidades = pauta.ElementAt(0);
@@ -32,40 +30,23 @@ namespace ProyectoAvanzada.Modelo
                 // Se separan las habilidades por ','
                 String[] habilidad = habilidades.Split(',');
 
-                correcta = 0;
-                incorrecta = 0;
+                correcta = 0; incorrecta = 0;
                 List<String> revision = new List<string>();
                 for (int i = 0; i < respuestas.Count; i++)
                 {
-                    if (NombreCarpeta == "Evaluación Diagnóstico")
-                    {  // Aca se cuenta correctas e incorrectas por habilidad
-                        if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
-                        {
-                            revision.Add("C");
-                        } else {
-                            revision.Add("I");
-                        }
-                    }
-                    else // Es Módulo
+                    if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
                     {
-                        // Para los otros módulos, se cuentan correctas e incorrectas por la actividad 
-                        if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
-                        {
-                            correcta++;
-                        } else {
-                            incorrecta++;
-                        }
+                        correcta++;
+                    }
+                    else
+                    {
+                        incorrecta++;
                     }
                 }
-                if (NombreCarpeta == "Evaluación Diagnóstico") { // Se ve si es diagnostico o modulo para determinar el resultado
-                    calcularDiagnostico(revision, habilidad);
-                } else {
-                    resultado = determinarNivelLogroActividad(correcta, incorrecta);
-                    Console.WriteLine(correcta);
-                    Console.WriteLine(incorrecta);
-                    Console.WriteLine("Resultado: " + resultado);
-                }
-                Console.ReadKey();
+                resultado = determinarNivelLogroActividad(correcta, incorrecta);
+                Console.WriteLine(correcta);
+                Console.WriteLine(incorrecta);
+                Console.WriteLine("Resultado: " + resultado);
             } catch (ArgumentOutOfRangeException e) {
                 Console.WriteLine("Mensaje 1: " + e.Message);
             } catch (NullReferenceException e1) {
@@ -73,32 +54,6 @@ namespace ProyectoAvanzada.Modelo
             } catch (InvalidOperationException e2) {
                 Console.WriteLine("Mensaje 3:" + e2.Message);
             }
-        }
-
-        // Calcula las respuestas correctas e incorrectas que se obtuvo en una actividad del diagnostico
-        public void calcularDiagnostico(List<string> revision, String[] habilidad)
-        {
-            int H1C = 0, H1I = 0, H2C = 0, H2I = 0;    // C: correctas ; I:incorrectas
-            for (int i = 0; i < revision.Count; i++)
-            {
-                if (habilidad[i] == "H1")  // H1 = Extraer información explícita
-                {
-                    if (revision.ElementAt(i) == "C") {
-                        H1C++;
-                    } else {
-                        if (revision.ElementAt(i) == "I") { H1I++; }
-                    }
-                } else { // Es H2 = Análisis de la forma del texto
-                    if (revision.ElementAt(i) == "C") {
-                        H2C++;
-                    } else {
-                        if (revision.ElementAt(i) == "I") { H2I++; }
-                    }
-                }
-            }
-            resultadoH1 = determinarNivelLogroActividad(H1C, H1I);
-            resultadoH2 = determinarNivelLogroActividad(H2C, H2I);
-            Console.WriteLine(resultadoH1 + " | " + resultadoH2);
         }
 
         public string determinarNivelLogroActividad(int buenas, int malas) // Determina Logrado o No Logrado, SE DEBERIA GUARDAR EL RESULTADO EN ALGUNA LISTA !!!!!
@@ -155,15 +110,11 @@ namespace ProyectoAvanzada.Modelo
             this.actividad = archivos_actividad;
         }
 
-        public void setNombreCarpeta(String NombreCarpeta) {
+        public void setNombreCarpeta(String NombreCarpeta)
+        {
             this.NombreCarpeta = NombreCarpeta;
         }
 
-        public String getResultadoH1() { return resultadoH1; }
-
-        public String getResultadoH2() { return resultadoH2; }
-
-        public double getPorcentH() { return porcentaje_actividad; }
+        public double getPorcentaje() { return porcentaje_actividad; }
     }
-
 }
