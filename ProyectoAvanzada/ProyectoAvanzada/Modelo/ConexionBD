@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+
+namespace ProyectoAvanzada.Modelo
+{
+
+    public class ConexionBD {
+        private MySqlConnection conn;
+        private MySqlCommand cmd;
+        public ConexionBD() {
+            MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
+            builder.Server = "localhost";
+            builder.UserID = "root";
+            /*Cada uno coloca su password y su base de datos*/
+
+            builder.Password = "felipe69";
+            builder.Database = "mclbd";
+
+            conn = new MySqlConnection(builder.ToString());
+            conn.Open();
+            cmd = conn.CreateCommand();
+
+        }
+
+        public void Insertar() {
+            
+            cmd.CommandText = "INSERT INTO alumno (nombre,apellido_p,apellido_m,curso,rut,clave,fecha) value ('felipe','segovia','rodriguez','5A','10.040.243-6','4545','2016,11,26')";
+            
+            cmd.ExecuteNonQuery();
+        }
+
+        //Hay que anotar la lista de selecciones que va a realizar
+        public void Seleccionar() {
+            cmd.CommandText = "SELECT * FROM alumno";
+            MySqlDataReader leer = cmd.ExecuteReader();
+            //De aqui para abajo es para comprobar si leyo o no
+            while (leer.Read())
+            {
+                Console.WriteLine("Nombre: " + leer[0] + " Apellido Paterno: " + leer[1] + " Apellido Materno: " + leer[2]);
+            }
+
+            Console.ReadKey();
+        }
+
+    }
+
+}
