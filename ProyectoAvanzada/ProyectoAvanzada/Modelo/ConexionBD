@@ -59,6 +59,42 @@ namespace ProyectoAvanzada.Modelo
             cmd.CommandText = "INSERT INTO resultado_modulo(codigo,num_actividad,niv_logro_act) VALUE('"+codigo+"',"+num_actividad+",'"+niv_logro_act+"')";
         }
 
+        // Si el alumno realizo la evaluacion de diagnostico
+        public Boolean diagnosticoRealizado(string rut)
+        {
+            cmd.CommandText = "SELECT codigo FROM alumno, diagnostico WHERE alumno.rut = "+ rut +" AND alumno.rut = diagnostico.rut_a";
+            MySqlDataReader query = cmd.ExecuteReader();
+            if (query == null)
+                return false;
+            else
+                return true;
+        }
+
+        // Resultado del diagnostico dado por el alumno
+        public string resultadoDiagnostico(string rut)
+        {
+            cmd.CommandText = "SELECT modulo FROM alumno, diagnostico, resultado_diag WHERE alumno.rut = "+ rut +" AND alumno.rut = diagnostico.rut_a AND diagnostico.codigo = resultado_diag.codigo";
+            MySqlDataReader query = cmd.ExecuteReader();
+            string modulo = (string)query[0];
+            return modulo;
+        }
+
+        // Seleccionar todos los modulos que ha realizado el alumno
+        public string[] SeleccionarModulosRealizdos(string rut)
+        {
+            cmd.CommandText = "SELECT modulo_nombre, nivel_logro_modulo FROM alumno, modulo WHERE alumno.rut = "+ rut +" AND alumno.rut = modulo.rut_a";
+            MySqlDataReader query = cmd.ExecuteReader();
+            string mRealizado = null;
+            string nivelLogro = null;
+            while(query.Read())
+            {
+                mRealizado = (string)query[0];
+                nivelLogro = (string)query[1];
+            }
+            string[] modulo = {mRealizado, nivelLogro};
+            return modulo;
+        }
+
         //Hay que anotar la lista de selecciones que va a realizar
         public void Seleccionar() {
             cmd.CommandText = "SELECT * FROM alumno";
