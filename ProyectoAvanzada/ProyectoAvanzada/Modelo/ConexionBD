@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-    public class ConexionBD {
+ public class ConexionBD {
         private MySqlConnection conn;
         private MySqlCommand cmd;
         public ConexionBD() {
@@ -24,31 +24,42 @@ namespace ProyectoAvanzada.Modelo
 
         }
 
+        public void CerrarBD() {
+            conn.Close();
+        }
+        //Inserta todos los datos del alumno
         public void InsertarDatosAlumno(String nombre,String apellido_p,String apellido_m,String curso,String rut,String clave,int fecha)
         {
 
-            cmd.CommandText = "INSERT INTO alumno (nombre,apellido_p,apellido_m,curso,rut,clave,fecha) value ('"+nombre+"','"+apellido_p+"','"+apellido_m+"','"+curso+"','"+rut+"','"+clave+"',"+fecha+")";
+            cmd.CommandText = "INSERT INTO alumno (nombre,apellido_p,apellido_m,curso,rut,clave,fecha) value ('" + nombre + "','" + apellido_p + "','" + apellido_m + "','" + curso + "','" + rut + "','" + clave + "'," + fecha + ")";
 
             cmd.ExecuteNonQuery();
         }
+
         public void InsertarDatosProfesor(String nombre,String apellido_p,String apellido_m,String rut,String clave)
         {
-            cmd.CommandText = "INSERT INTO profesor(nombre,apellido_p,apellido_m,clave) value ('" + nombre + "','" + apellido_p + "','" + apellido_m + "','"+rut+"','"+clave+"')";
+            cmd.CommandText = "INSERT INTO profesor(nombre,apellido_p,apellido_m,rut,clave) value ('" + nombre + "','" + apellido_p + "','" + apellido_m + "','"+rut+"','"+clave+"')";
             cmd.ExecuteNonQuery();
         }
         public void InsertarCursoProfesor(int fecha,String rut,String curso )
         {
-            cmd.CommandText = "INSERT INTO curso_profesor() VALUE("+fecha+",'"+rut+"','"+curso+"')";
+            cmd.CommandText = "INSERT INTO curso_profesor(fecha,rut,curso) VALUE("+fecha+",'"+rut+"','"+curso+"')";
             cmd.ExecuteNonQuery();
         }
+
+        public void InsertarDiagnostico(String codigo,DateTime fecha,String rut_p,String rut_a) {
+            cmd.CommandText = "INSERT INTO diagnostico(codigo,fecha,rut_p,rut_a) VALUE ('"+codigo+"','"+fecha+"','"+rut_p+"','"+rut_a+"')";
+            cmd.ExecuteNonQuery();
+        }
+
         public void InsertarResultadosAlumnoDiagnostico(String codigo,DateTime fecha,String rut_p,String rut_a,int h1_c,int h1_i,int h2_c,int h2_i,String nivel_logro_h1,String nivel_logro_h2,String modulo) //Se insertan datos de diagnostico
         {
             cmd.CommandText = "INSERT INTO diagnostico(codigo,fecha,rut_p,rut_a) VALUE ("+codigo+",'"+fecha+"','"+rut_p+"','"+rut_a+"')";
             cmd.CommandText = "INSERT INTO resultado_diag(codigo,h1_c,h1_i,h2_c,h2_i,nivel_logro_h1,nivel_logro_h2,modulo) VALUE ("+codigo+","+h1_c+","+h1_i+","+h2_c+","+h2_i+",'"+nivel_logro_h1+"','"+nivel_logro_h2+"','"+modulo+")";
         }
-        public void InsertarDatosModuloAlumno(String codigo,DateTime fecha,String rut_p,String rut_a,String nombre_modulo) //Se insertan los resultaos de diagnostico
+        public void InsertarDatosModuloAlumno(String codigo,DateTime fecha,String Modulo,String rut_p,String rut_a,String nombre_modulo) //Se insertan los resultaos de diagnostico
         {
-            cmd.CommandText = "INSERT INTO modulo(codigo,fecha,rut_p,rut_a,nombre_modulo) VALUE('"+codigo+"',"+fecha+",'"+rut_p+"','"+rut_a+"','"+nombre_modulo+"')";
+            cmd.CommandText = "INSERT INTO modulo(codigo,fecha,modulo,rut_p,rut_a,nombre_modulo) VALUE('"+codigo+"',"+fecha+",'"+Modulo+"','"+rut_p+"','"+rut_a+"','"+nombre_modulo+"')";
             
         }
         public void InsertarNivLogroAlumno(String nivel_logro_modulo) {
@@ -59,54 +70,46 @@ namespace ProyectoAvanzada.Modelo
             cmd.CommandText = "INSERT INTO resultado_modulo(codigo,num_actividad,niv_logro_act) VALUE('"+codigo+"',"+num_actividad+",'"+niv_logro_act+"')";
         }
 
+        //Si el alumno esta registrado o no
+        public Boolean ComprobarRegistro(String rut) {
+            cmd.CommandText = "SELECT rut FROM alumno where rut='" + rut + "'";
+            MySqlDataReader query = cmd.ExecuteReader();
+            //Console.WriteLine(query.Read());
+            return query.Read();
+        }
         // Si el alumno realizo la evaluacion de diagnostico
         public Boolean diagnosticoRealizado(string rut)
         {
-            cmd.CommandText = "SELECT codigo FROM alumno, diagnostico WHERE alumno.rut = "+ rut +" AND alumno.rut = diagnostico.rut_a";
+            cmd.CommandText = "SELECT codigo FROM alumno, diagnostico WHERE alumno.rut = '" + rut + "' AND alumno.rut = 'diagnostico.rut_a'";
             MySqlDataReader query = cmd.ExecuteReader();
-            if (query == null)
-                return false;
-            else
-                return true;
+            return query.Read();
         }
 
         // Resultado del diagnostico dado por el alumno
         public string resultadoDiagnostico(string rut)
         {
-            cmd.CommandText = "SELECT modulo FROM alumno, diagnostico, resultado_diag WHERE alumno.rut = "+ rut +" AND alumno.rut = diagnostico.rut_a AND diagnostico.codigo = resultado_diag.codigo";
+            cmd.CommandText = "SELECT modulo FROM alumno, diagnostico, resultado_diag WHERE alumno.rut = " + rut + " AND alumno.rut = diagnostico.rut_a AND diagnostico.codigo = resultado_diag.codigo";
             MySqlDataReader query = cmd.ExecuteReader();
             string modulo = (string)query[0];
             return modulo;
         }
 
         // Seleccionar todos los modulos que ha realizado el alumno
-        public string[] SeleccionarModulosRealizdos(string rut)
+        public string[] SeleccionarTodosLosModulosRealizados(string rut)
         {
-            cmd.CommandText = "SELECT modulo_nombre, nivel_logro_modulo FROM alumno, modulo WHERE alumno.rut = "+ rut +" AND alumno.rut = modulo.rut_a";
+            cmd.CommandText = "SELECT modulo_nombre, nivel_logro_modulo FROM alumno, modulo WHERE alumno.rut = " + rut + " AND alumno.rut = modulo.rut_a";
             MySqlDataReader query = cmd.ExecuteReader();
             string mRealizado = null;
             string nivelLogro = null;
-            while(query.Read())
+            while (query.Read())
             {
                 mRealizado = (string)query[0];
                 nivelLogro = (string)query[1];
             }
-            string[] modulo = {mRealizado, nivelLogro};
+            string[] modulo = { mRealizado, nivelLogro };
             return modulo;
         }
 
-        //Hay que anotar la lista de selecciones que va a realizar
-        public void Seleccionar() {
-            cmd.CommandText = "SELECT * FROM alumno";
-            MySqlDataReader leer = cmd.ExecuteReader();
-            //De aqui para abajo es para comprobar si leyo o no
-            while (leer.Read())
-            {
-                Console.WriteLine("Nombre: " + leer[0] + " Apellido Paterno: " + leer[1] + " Apellido Materno: " + leer[2]);
-            }
-
-            Console.ReadKey();
-        }
 
     }
 }
