@@ -8,7 +8,7 @@ namespace ProyectoAvanzada.Modelo
 {
     public class Modelo
     {
-        private String ResultadoH1 { get; set; }
+        private String ResultadoH1;
         private String ResultadoH2 { get; set; }//Almaceno si es logrado o no logrado en cada habiliad.
         private Double Porcent_Act_Diag;
         private Evaluaciones evaluacion;
@@ -37,23 +37,21 @@ namespace ProyectoAvanzada.Modelo
 
 
 
-            Console.WriteLine("Habilidad 1:" + ResultadoH1);
-            Console.WriteLine("Habilidad 2:" + ResultadoH2);
+            //Console.WriteLine("Habilidad 1:" + ResultadoH1);
+            //Console.WriteLine("Habilidad 2:" + ResultadoH2);
             Porcent_Act_Diag = diagnostico.getPorcentH();
-            Console.WriteLine(Porcent_Act_Diag + "%");
-
-            Console.ReadKey();
+            //Console.WriteLine(Porcent_Act_Diag + "%");
         }
 
-        public String TrabajoDiagnostico(string rut) //Retorna cual modulo debe realizar
-        { 
+        public String EvluacionDiagnostico() //Retorna cual modulo debe realizar
+        {
             string resultado = null; //Aqui devuelve si realiza el modulo 1.1 o 1.2
             List<String> respuestas;
             for (int i = 0; i < CantActividad; i++)//Bucle para realizar todas las actividades.
             {
                 respuestas = evaluacion.TrabajaActividad(i); //contiene las respuestas que aplico el alumno
                 diagnostico.RevisarActividad(respuestas, i); //revisa esas respuestas con la pauta.
-                                                                //Almacenar la cantidad de buenas y malas en cada pregunta.
+                                                             //Almacenar la cantidad de buenas y malas en cada pregunta.
                 H1C = H1C + diagnostico.getH1C();
                 H1I = H1I + diagnostico.getH1I();
                 H2C = H2C + diagnostico.getH2C();
@@ -80,25 +78,31 @@ namespace ProyectoAvanzada.Modelo
             return resultado;
         }
 
-        public void TrabajarModulo(string rut)
+
+        //
+        public void TrabajarModulo(string rut,String codigo,DateTime fecha,String rut_p)
         {
             Evaluaciones modulo = new Evaluaciones();
             Modulo evaluar = new Modulo();
             LeerArchivo archivos_actividad = new LeerArchivo();
             LeerArchivo archivos_pauta = new LeerArchivo();
+            String NombreModulo;
 
             ConexionBD conexion = new ConexionBD();
-            string[] moduloRealizado = conexion.SeleccionarModulosRealizdos(rut);
-            string mRealizado = moduloRealizado[0];  
-            string nivelLogroM = moduloRealizado[1];  
+            string[] moduloRealizado = conexion.SeleccionarTodosLosModulosRealizados(rut);
+            string mRealizado = moduloRealizado[0];
+            string nivelLogroM = moduloRealizado[1];
 
             if (mRealizado == null) // Si no ha hecho ningun modulo
             {
                 // SE DEBE OBTENER DE LA BD DE LA TABLA DIAGNOSTICO CUAL MODULO DEBE REALIZAR E, EF o F
-                string hacerModulo = "MóduloE";   // Suponiendo que esto es lo que se obtiene de la BD
+               
+                string hacerModulo = conexion.resultadoDiagnostico(rut);   
 
                 archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", hacerModulo);
                 archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", hacerModulo);
+                NombreModulo = hacerModulo;
+
             }
             else // Ya ha realizado algun modulo
             {
@@ -112,12 +116,14 @@ namespace ProyectoAvanzada.Modelo
                     numM++;
                     archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numM + ".1");
                     archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numM + ".1");
+                    NombreModulo = "Módulo" + numM;
                 }
                 else if (seRealiza == "Repite") // Repite modulo
                 {
                     numModulo = numModulo + 0.1;
                     archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numModulo);
                     archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numModulo);
+                    NombreModulo = "Módulo" + numM;
                 }
                 else // Se realiza modulo remedial
                 {
@@ -126,11 +132,13 @@ namespace ProyectoAvanzada.Modelo
                         numModulo = numModulo + 0.1;
                         archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numModulo);
                         archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numModulo);
+                        NombreModulo = "Módulo" + numM;
                     }
                     else // El ultimo fue modulo
                     {
                         archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numM + ".1");
                         archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numM + ".1");
+                        NombreModulo = "Módulo" + numM;
                     }
                 }
             }
@@ -147,11 +155,16 @@ namespace ProyectoAvanzada.Modelo
             {
                 List<string> respuestas = modulo.TrabajaActividad(i);
                 logros.Add(evaluar.RevisarActividad(respuestas, i));
+                conexion.InsertarActividadesModeloAlumno(codigo,i,logros.ElementAt(i)); //Inserto datos por cada actividad realizada en el modulo
             }
             string nivelLogro = evaluar.determinarNivelLogroModulo(logros);
+            conexion.InsertarDatosModuloAlumno(codigo,fecha, NombreModulo, rut_p,rut,nivelLogro);
             Console.WriteLine(nivelLogro);
             Console.ReadKey();
         }
+
+        public String getResultadoH1() { return ResultadoH1; }
+        public String getResultadoH2() { return ResultadoH2; }
 
     }
 }
