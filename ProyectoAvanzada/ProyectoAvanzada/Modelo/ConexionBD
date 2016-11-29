@@ -94,22 +94,140 @@ namespace ProyectoAvanzada.Modelo
             return modulo;
         }
 
-        // Seleccionar todos los modulos que ha realizado el alumno
+              // Seleccionar todos los modulos que ha realizado el alumno
         public string[] SeleccionarTodosLosModulosRealizados(string rut)
         {
-            cmd.CommandText = "SELECT modulo_nombre, nivel_logro_modulo FROM alumno, modulo WHERE alumno.rut = " + rut + " AND alumno.rut = modulo.rut_a";
+            cmd.CommandText = "SELECT nombre_modulo, nivel_logro_modulo, codigo FROM alumno, modulo WHERE alumno.rut = '" + rut + "' AND alumno.rut = modulo.rut_a";
             MySqlDataReader query = cmd.ExecuteReader();
             string mRealizado = null;
             string nivelLogro = null;
+            int codigo = -1;
             while (query.Read())
             {
                 mRealizado = (string)query[0];
                 nivelLogro = (string)query[1];
+                codigo = query.GetInt32(2);
             }
-            string[] modulo = { mRealizado, nivelLogro };
+            string codigoM = Convert.ToString(codigo);
+            string[] modulo = { mRealizado, nivelLogro, codigoM };
             return modulo;
         }
 
+        // Seleccionar todas las actividades realizadas en un modulo
+        public List<Object> SeleccionarActRealizadasEnModulo(string rut, int codigo)
+        {
+            cmd.CommandText = "SELECT num_actividad FROM alumno, modulo, resultado_modulo WHERE alumno.rut = '"+ rut +"' AND alumno.rut = modulo.rut_a AND modulo.codigo = "+ codigo +"";
+            MySqlDataReader query = cmd.ExecuteReader();
+            List<Object> lista = new List<Object>();
+            int resultado = -1;
+            while (query.Read())
+            {
+                resultado = query.GetInt32(0);
+                lista.Add(resultado);
+            }
+            return lista;
+        }
 
+        // Seleccionar las habilidades de un modulo
+        public List<string> SeleccionarHabilidadesEnModulo(string rut, int codigo)
+        {
+            cmd.CommandText = "SELECT habilidad FROM alumno, modulo, resultado_modulo WHERE alumno.rut = '" + rut + "' AND alumno.rut = modulo.rut_a AND modulo.codigo = " + codigo + "";
+            MySqlDataReader query = cmd.ExecuteReader();
+            List<string> lista = new List<string>();
+            while (query.Read())
+            {
+                lista.Add((string)query[0]);
+            }
+            return lista;
+        }
+
+        // Seleccionar todos los nivel de logro de las actividades de un modulo
+        public List<string> SeleccionarNivelLogroAct(string rut, int codigo)
+        {
+            cmd.CommandText = "SELECT nivel_logro_act FROM alumno, modulo, resultado_modulo WHERE alumno.rut = '" + rut + "' AND alumno.rut = modulo.rut_a AND modulo.codigo = " + codigo + "";
+            MySqlDataReader query = cmd.ExecuteReader();
+            List<string> lista = new List<string>();
+            while (query.Read())
+            {
+                lista.Add((string)query[0]);
+            }
+            return lista;
+        }
+
+        // Seleccionar el nombre, apellidos y curso del alumno
+        public string[] SeleccionarAlumno(string rut)
+        {
+            cmd.CommandText = "SELECT nombre, apellido_p, apellido_m, curso FROM alumno WHERE alumno.rut = '"+ rut +"'";
+            MySqlDataReader query = cmd.ExecuteReader();
+            string nombre = null;
+            string curso = null;
+            while (query.Read())
+            {
+                nombre = (string)query[0];
+                nombre = nombre + " " + (string)query[1];
+                nombre = nombre + " " + (string)query[2];
+                curso = (string)query[3];
+            }
+            string[] alumno = { nombre, curso };
+            return alumno;
+        }
+
+        // Seleccionar profesor de un alumno en especifico
+        public string SeleccionarProfesorDeAlumno(string rut)
+        {
+            cmd.CommandText = "SELECT P.nombre, P.apellido_p, P.apellido_m FROM alumno, profesor as P, curso_profesor WHERE alumno.rut = '" + rut + "' AND alumno.curso = curso_profesor.curso AND curso_profesor.rut = P.rut";
+            MySqlDataReader query = cmd.ExecuteReader();
+            string nombre = null;
+            while (query.Read())
+            {
+                nombre = (string)query[0];
+                nombre = nombre + " " + (string)query[1];
+                nombre = nombre + " " + (string)query[2];
+            }
+            return nombre;
+        }
+
+        // Seleccionar RUT profesor de un alumno en especifico
+        public string SeleccionarRutProfesorDeAlumno(string rut)
+        {
+            cmd.CommandText = "SELECT P.rut FROM alumno, profesor as P, curso_profesor WHERE alumno.rut = '" + rut + "' AND alumno.curso = curso_profesor.curso AND curso_profesor.rut = P.rut";
+            MySqlDataReader query = cmd.ExecuteReader();
+            string nombre = null;
+            query.Read();
+            nombre = (string)query[0];
+            return nombre;
+        }
+
+        // Seleccionar cantidad de respuestas correctas e incorrectas en las habilidades de diagnostico
+        public List<Object> SeleccionarResultadosDiagnostico(string rut)
+        {
+            cmd.CommandText = "SELECT h1_c, h1_i, h2_c, h2_i FROM alumno, diagnostico, resultado_diag WHERE alumno.rut = '" + rut + "' AND alumno.rut = diagnostico.rut_a AND diagnostico.codigo = resultado_diag.codigo";
+            MySqlDataReader query = cmd.ExecuteReader();
+            List<Object> lista = new List<Object>();
+            int resultado = -1;
+            query.Read();
+            resultado = query.GetInt32(0);
+            lista.Add(resultado);
+            resultado = query.GetInt32(1);
+            lista.Add(resultado);
+            resultado = query.GetInt32(2);
+            lista.Add(resultado);
+            resultado = query.GetInt32(3);
+            lista.Add(resultado);
+            return lista;
+        }
+
+        // Seleccionar nivel de logro de cada habilidad del diagnostico
+        public List<string> SeleccionarNivelHabilidad(string rut)
+        {
+            cmd.CommandText = "SELECT nivel_logro_h1, nivel_logro_h2, modulo FROM alumno, diagnostico, resultado_diag WHERE alumno.rut = '" + rut + "' AND alumno.rut = diagnostico.rut_a AND diagnostico.codigo = resultado_diag.codigo";
+            MySqlDataReader query = cmd.ExecuteReader();
+            query.Read();
+            List<string> resultados = new List<string>();
+            resultados.Add((string)query[0]);
+            resultados.Add((string)query[1]);
+            resultados.Add((string)query[2]);
+            return resultados;
+        }
     }
 }
