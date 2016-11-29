@@ -15,7 +15,7 @@ namespace ProyectoAvanzada.Modelo
         private double porcentaje_actividad;
         private int correcta, incorrecta;
 
-        public Modulo() { } 
+        public Modulo() { }
 
         public string RevisarActividad(List<String> respuestas, int numAct)
         {
@@ -47,11 +47,17 @@ namespace ProyectoAvanzada.Modelo
                 Console.WriteLine(correcta);
                 Console.WriteLine(incorrecta);
                 Console.WriteLine("Resultado: " + resultado);
-            } catch (ArgumentOutOfRangeException e) {
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
                 Console.WriteLine("Mensaje 1: " + e.Message);
-            } catch (NullReferenceException e1) {
+            }
+            catch (NullReferenceException e1)
+            {
                 Console.WriteLine("Mensaje 2:" + e1.Message);
-            } catch (InvalidOperationException e2) {
+            }
+            catch (InvalidOperationException e2)
+            {
                 Console.WriteLine("Mensaje 3:" + e2.Message);
             }
             return resultado;
@@ -72,17 +78,20 @@ namespace ProyectoAvanzada.Modelo
         }
 
         public string determinarNivelLogroModulo(List<string> resultadoModulo)  // Determina nivel de logro del modulo realizado
-        {  
+        {
             // Se determina cuantos logrados y cuantos no logrados por las actividades hay
             Dictionary<string, int> contador = new Dictionary<string, int>();
             foreach (string item in resultadoModulo)
             {
-                try {
+                try
+                {
                     if (contador.ContainsKey(item))
                         contador[item]++;
                     else
                         contador.Add(item, 1);
-                } catch (ArgumentNullException e) {
+                }
+                catch (ArgumentNullException e)
+                {
                     Console.WriteLine(e.Message);
                 }
             }
