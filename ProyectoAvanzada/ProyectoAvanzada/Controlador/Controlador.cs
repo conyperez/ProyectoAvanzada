@@ -14,7 +14,7 @@ namespace ProyectoAvanzada.Controlador
         string codigo = "0001";
         //Deberia haber una seleccion que te diga el rut del alumno!
         private string rut="27.040.243-6";
-        DateTime fecha = new DateTime();
+        string fecha = DateTime.Now.ToString("yyyy-MM-dd");
         String rut_p; //Esto se ve con la base de datos.
 
         public Controlador()
