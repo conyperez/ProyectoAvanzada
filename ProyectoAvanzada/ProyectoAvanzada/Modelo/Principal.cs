@@ -10,13 +10,8 @@ namespace ProyectoAvanzada.Modelo
     {
         static void Main(string[] args)
         {
-                        //ConexionBD conexion = new ConexionBD();
-            Modelo model=new Modelo();
-            //Controlador.Controlador control = new Controlador.Controlador(model,conexion);
-            //Modelo model = new Modelo();
-            //ConexionBD conexion = new ConexionBD();
-            //conexion.Insertar();
-            //conexion.Seleccionar();
+            ProyectoAvanzada.Controlador.Controlador controlador = new ProyectoAvanzada.Controlador.Controlador();
+            Console.ReadKey();
         }
     }
 }
