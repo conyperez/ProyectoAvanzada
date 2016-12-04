@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProyectoAvanzada.Modelo
 {
-    private String ResultadoH1;
+    public class Modelo
+    {
+        private String ResultadoH1;
         private String ResultadoH2 { get; set; }//Almaceno si es logrado o no logrado en cada habiliad.
         private Double Porcent_Act_Diag;
         private Evaluaciones evaluacion;
