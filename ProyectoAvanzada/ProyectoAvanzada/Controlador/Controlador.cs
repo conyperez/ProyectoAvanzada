@@ -11,9 +11,10 @@ namespace ProyectoAvanzada.Controlador
         private Boolean usuario;
         Modelo.ConexionBD conexion;
         Modelo.Modelo modelo;
-        string codigo = "0001";
+        String codigo;
         //Deberia haber una seleccion que te diga el rut del alumno!
-        private string rut="27.040.243-6";
+        private string rut= "1.040.243-6";
+        private string clave = "4546";
         string fecha = DateTime.Now.ToString("yyyy-MM-dd");
         String rut_p; //Esto se ve con la base de datos.
 
@@ -22,13 +23,13 @@ namespace ProyectoAvanzada.Controlador
             conexion = new Modelo.ConexionBD();
             modelo = new Modelo.Modelo();
             //Compruebo si existe el usuario FALTA ESE SELECT
-            usuario = conexion.ComprobarRegistro(rut);
-            conexion.CerrarBD();
-            if (usuario == true)
+            usuario = conexion.ComprobarRegistro(rut,clave);
+            if (usuario)
             { // el usuario ya se registro y puede seguir rindiendo mcl donde quedo
                 Console.WriteLine("El alumno esta registrado");
                 conexion = new ConexionBD();
-                if (realizarDiagnostico() == true) { //Si ya realizo el diagnostico
+                if (realizarDiagnostico(rut)) { //Si ya realizo el diagnostico
+                    Console.WriteLine("El alumno ya realizo el diagnostico");
                     modelo.TrabajarModulo(rut,codigo,fecha,rut_p);
 
                 }
@@ -71,9 +72,9 @@ namespace ProyectoAvanzada.Controlador
 
 
 
-        public Boolean realizarDiagnostico()
+        public Boolean realizarDiagnostico(string rut_a)
         {
-            Boolean realizado = conexion.diagnosticoRealizado(rut);
+            Boolean realizado = conexion.diagnosticoRealizado(rut_a);
             return realizado;
         }
         public void IngresoDatos(String nombre,String apellido_p,String apellido_m,String curso,String clave,int fecha) { //Este procedimiento es cuando el usuario ingresa por primera vez y se deben almacenar los datos a la bd
