@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ProyectoAvanzada
 {
-    /*Aqui es donde se sacan los archivos para las evaluaciones,pautas,imagenes,etc.*/
+        /*Aqui es donde se sacan los archivos para las evaluaciones,pautas,imagenes,etc.*/
     public class LeerArchivo
     {
         private String Direccion;
