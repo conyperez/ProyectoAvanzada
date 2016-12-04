@@ -80,7 +80,7 @@ namespace ProyectoAvanzada.Modelo
 
 
         //
-        public void TrabajarModulo(string rut,String codigo,DateTime fecha,String rut_p)
+        public void TrabajarModulo(string rut,String codigo,String fecha,String rut_p)
         {
             Evaluaciones modulo = new Evaluaciones();
             Modulo evaluar = new Modulo();
@@ -92,11 +92,12 @@ namespace ProyectoAvanzada.Modelo
             string[] moduloRealizado = conexion.SeleccionarTodosLosModulosRealizados(rut);
             string mRealizado = moduloRealizado[0];
             string nivelLogroM = moduloRealizado[1];
-
+            
             if (mRealizado == null) // Si no ha hecho ningun modulo
             {
                 // SE DEBE OBTENER DE LA BD DE LA TABLA DIAGNOSTICO CUAL MODULO DEBE REALIZAR E, EF o F
-               
+                conexion.CerrarBD();
+                conexion = new ConexionBD();
                 string hacerModulo = conexion.resultadoDiagnostico(rut);   
 
                 archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", hacerModulo);
