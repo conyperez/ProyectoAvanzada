@@ -44,7 +44,7 @@ namespace ProyectoAvanzada.Controlador
                     Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
                     rDiagnostico = modelo.EvluacionDiagnostico();
                     conexion.InsertarResultadosAlumnoDiagnostico(codigo, fecha, rut, rut_p, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);
-                    conexion.CerrarBD();
+                    conexion.cerrarBD();
                 }
             }
             else {//En la vista debe haber una opcion para el profesor y ahi recien poder insertar datos del profesor.
@@ -66,7 +66,7 @@ namespace ProyectoAvanzada.Controlador
                 Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
                 rDiagnostico = modelo.EvluacionDiagnostico();
                 conexion.InsertarResultadosAlumnoDiagnostico("4546",fecha, "5.323.234-1",rut, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);// Ingreso los resultados de diagnostico
-                conexion.CerrarBD();
+                conexion.cerrarBD();
             }
         }
 
