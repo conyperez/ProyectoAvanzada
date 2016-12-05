@@ -16,7 +16,7 @@ namespace ProyectoAvanzada.Controlador
         private string rut = "1.040.243-6";
         private string clave = "4546";
         string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-        String rut_p; //Esto se ve con la base de datos.
+        String rut_p = "3.433.123-9"; //Esto se ve con la base de datos.
 
         public Controlador()
         {
@@ -28,11 +28,12 @@ namespace ProyectoAvanzada.Controlador
             { // El usuario ya se registro y puede seguir rindiendo mcl donde quedo
                 Console.WriteLine("El alumno esta registrado");
                 conexion = new ConexionBD();
-                if (realizarDiagnostico(rut))
+                if (!realizarDiagnostico(rut))
                 { //Si ya realizo el diagnostico
                     Console.WriteLine("El alumno ya realizo el diagnostico");
                     conexion = new ConexionBD();
                     int generarCodigo = conexion.SeleccionarUltimoCodigoModulo();
+                    conexion.cerrarBD();
                     string codigo = Convert.ToString(generarCodigo);
                     modelo.TrabajarModulo(rut, codigo, fecha, rut_p);
 
@@ -40,15 +41,16 @@ namespace ProyectoAvanzada.Controlador
                 else //Si aun no realiza la evaluacion de diagnostico
                 {
                     //Las variables codigo,rut_p,fecha se obtienen a partir de lo que se genera en el reporte 
+                    conexion = new ConexionBD();
                     String rDiagnostico;
                     int codigoGenerado = conexion.SeleccionarUltimoCodigoD();
-                    String rut_p = "11.049.234-3";
-                    DateTime fecha = new DateTime(2016, 11, 28);
-
+                    String rut_p = "3.433.123-9";
+                    conexion.cerrarBD();
+                    conexion = new ConexionBD();
                     Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
                     rDiagnostico = modelo.EvluacionDiagnostico();
                     string codigo = Convert.ToString(codigoGenerado);
-                    conexion.InsertarResultadosAlumnoDiagnostico(codigo, fecha, rut, rut_p, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);
+                    conexion.InsertarResultadosAlumnoDiagnostico(codigo, fecha, rut_p,rut, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);
                     conexion.cerrarBD();
                 }
             }
@@ -59,10 +61,6 @@ namespace ProyectoAvanzada.Controlador
                 //Esos datos vienen en la vista
                 conexion = new ConexionBD();
                 conexion.InsertarDatosAlumno("Andres", "Rodriguez", "Rodriguez", "5A", rut, "4546", 2011);
-                DateTime fecha = new DateTime();
-                fecha.AddDays(2);
-                fecha.AddMonths(5);
-                fecha.AddYears(2011);
 
                 conexion.InsertarDatosProfesor("Camila", "Opazo", "Reyes", "5.323.234-1", "3243");
                 //Aqui deberia ir un if que pregunte si el alumno seguira realizando el software o se saldra de el.
