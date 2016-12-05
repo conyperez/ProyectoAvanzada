@@ -8,9 +8,9 @@ namespace ProyectoAvanzada.Modelo
 {
     public class Modelo
     {
-        private String ResultadoH1;
-        private String ResultadoH2 { get; set; }//Almaceno si es logrado o no logrado en cada habiliad.
-        private Double Porcent_Act_Diag;
+        private string ResultadoH1;
+        private string ResultadoH2;//Almaceno si es logrado o no logrado en cada habiliad.
+        private double Porcent_Act_Diag;
         private Evaluaciones evaluacion;
         private Diagnostico diagnostico;
         private int CantActividad;
@@ -62,15 +62,16 @@ namespace ProyectoAvanzada.Modelo
             ResultadoH1 = diagnostico.determinarNivelLogroHabilidad(H1C, H1I);
             ResultadoH2 = diagnostico.determinarNivelLogroHabilidad(H2C, H2I);
             //ahora determinar cual habilidad enfocar
-            if (ResultadoH1.Equals(ResultadoH2))
+            if (ResultadoH1 == ResultadoH2)
             { //Si ambos son iguales
                 resultado = "MóduloEF";
             }
-            if (ResultadoH1.Equals("No Logrado"))
+            if (ResultadoH1 =="No Logrado")
             {
                 resultado = "MóduloE";
             }
-            if (ResultadoH2.Equals("No Logrado"))
+
+            if (ResultadoH2 == "No Logrado")
             {
                 resultado = "MóduloF";
             }
@@ -86,7 +87,7 @@ namespace ProyectoAvanzada.Modelo
             Modulo evaluar = new Modulo();
             LeerArchivo archivos_actividad = new LeerArchivo();
             LeerArchivo archivos_pauta = new LeerArchivo();
-            String NombreModulo;
+            String NombreModulo=null;
 
             ConexionBD conexion = new ConexionBD();
             string[] moduloRealizado = conexion.SeleccionarTodosLosModulosRealizados(rut);
@@ -108,40 +109,71 @@ namespace ProyectoAvanzada.Modelo
             else // Ya ha realizado algun modulo
             {
                 string seRealiza = evaluar.determinarProgreso(nivelLogroM);       // Si pasa al siguiente modulo, lo repite o realiza remedial
-                String[] separarUltimo = mRealizado.Split(' ');                  // Separa el nombre del ultimo modulo realizado: Ej: "Modulo 1.2" -> [Modulo, 1.2]
-                double numModulo = Convert.ToDouble(separarUltimo[1]);           // Pasa a double el "1.2"
-                String[] num = separarUltimo[1].Split('.');                      // Separa el numero: "1.2" -> [1, 2]
-                int numM = Convert.ToInt32(num[0]);                              // Pasa a int "1"
-                if (seRealiza == "Siguiente")
+                //Si realizo el diagnostico y luego realizo uno de estos modulos..
+                if (mRealizado.Equals("MóduloE") || mRealizado.Equals("MóduloEF") || mRealizado.Equals("MóduloF"))
                 {
-                    numM++;
-                    archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numM + ".1");
-                    archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numM + ".1");
-                    NombreModulo = "Módulo" + numM;
+                    
+                    if (seRealiza == "Siguiente")
+                    {
+                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo2", "Módulo 2.1");
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo2","Módulo 2.1");
+                        NombreModulo = "Módulo2";
+
+                    }
+                    else if(seRealiza == "Repite")
+                    {
+                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo2", "Módulo 2.2");
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo2", "Módulo 2.2");
+                        NombreModulo = mRealizado;
+                    }
+                    else if (seRealiza == "Remedial")
+                    {
+                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo2", "Remedial 1");
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo2", "Remedial 1");
+                        NombreModulo = mRealizado;
+                    }
                 }
-                else if (seRealiza == "Repite") // Repite modulo
+
+                else 
                 {
-                    numModulo = numModulo + 0.1;
-                    archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numModulo);
-                    archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Módulo " + numModulo);
-                    NombreModulo = "Módulo" + numM;
-                }
-                else // Se realiza modulo remedial
-                {
-                    if (separarUltimo[0].Equals("Remedial")) // El ultimo que realizo fue remedial
+                    String[] separarUltimo = mRealizado.Split(' ');                  // Separa el nombre del ultimo modulo realizado: Ej: "Modulo 1.2" -> [Modulo, 1.2] 
+                    //Console.WriteLine(separarUltimo[0]);
+                    double numModulo = Convert.ToDouble(separarUltimo[1]);           // Pasa a double el "1.2"
+                    String[] num = separarUltimo[1].Split('.');                      // Separa el numero: "1.2" -> [1, 2]
+                    int numM = Convert.ToInt32(num[0]);                              // Pasa a int "1"
+                    if (seRealiza == "Siguiente")
+                    {
+                        numM++;
+                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Módulo " + numM + ".1");
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Módulo " + numM + ".1");
+                        NombreModulo = "Módulo " + numM;
+                    }
+                    else if (seRealiza == "Repite") // Repite modulo
                     {
                         numModulo = numModulo + 0.1;
-                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numModulo);
-                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numModulo);
-                        NombreModulo = "Módulo" + numM;
+                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Módulo " + numModulo);
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Módulo " + numModulo);
+                        NombreModulo = "Módulo " + numM;
                     }
-                    else // El ultimo fue modulo
+                    else // Se realiza modulo remedial
                     {
-                        archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numM + ".1");
-                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo" + numM, "Remedial " + numM + ".1");
-                        NombreModulo = "Módulo" + numM;
+                        if (separarUltimo[0].Equals("Remedial")) // El ultimo que realizo fue remedial
+                        {
+                            numModulo = numModulo + 0.1;
+                            archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Remedial " + numModulo);
+                            archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Remedial " + numModulo);
+                            NombreModulo = "Módulo " + numM;
+                        }
+                        else // El ultimo fue modulo
+                        {
+                            archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Remedial " + numM + ".1");
+                            archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo " + numM, "Remedial " + numM + ".1");
+                            NombreModulo = "Módulo " + numM;
+                        }
                     }
                 }
+                
+                
             }
             archivos_actividad.setDireccion(@"\Actividades");
             archivos_pauta.setDireccion(@"\Pautas");
@@ -152,14 +184,29 @@ namespace ProyectoAvanzada.Modelo
 
             CantActividad = archivos_actividad.getCantArchivos();
             List<string> logros = new List<string>();
+            conexion.cerrarBD();
+            conexion = new ConexionBD();
+            conexion.InsertarDatosModuloAlumnoAntes(codigo,fecha,NombreModulo,rut_p,rut);
+            conexion.cerrarBD();
             for (int i = 0; i < CantActividad; i++)    // Se realizan las actividades
             {
+                conexion = new ConexionBD();
                 List<string> respuestas = modulo.TrabajaActividad(i);
                 logros.Add(evaluar.RevisarActividad(respuestas, i));
-                conexion.InsertarActividadesModeloAlumno(codigo,i,logros.ElementAt(i)); //Inserto datos por cada actividad realizada en el modulo
+                conexion.cerrarBD();
+                conexion = new ConexionBD();
+                conexion.InsertarActividadesModeloAlumno(codigo,i,logros.ElementAt(i),evaluar.getHabilidades()); //Inserto datos por cada actividad realizada en el modulo
+                conexion.cerrarBD();
+            }
+            for (int j=0;j< logros.Count;j++)
+            {
+                Console.WriteLine(logros.ElementAt(j).ToString());
             }
             string nivelLogro = evaluar.determinarNivelLogroModulo(logros);
-            conexion.InsertarDatosModuloAlumno(codigo,fecha, NombreModulo, rut_p,rut,nivelLogro);
+            Console.WriteLine("EL NIVEL DE LOGRO ES="+nivelLogro);
+            conexion.cerrarBD();
+            conexion = new ConexionBD();
+            conexion.InsertarDatosModuloAlumnoDespues(codigo,fecha, NombreModulo, rut_p,rut,nivelLogro);
             Console.WriteLine(nivelLogro);
             Console.ReadKey();
         }
