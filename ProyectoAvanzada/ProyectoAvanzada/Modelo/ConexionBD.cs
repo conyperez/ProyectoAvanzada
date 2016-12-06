@@ -71,7 +71,6 @@ namespace ProyectoAvanzada.Modelo
 
         }
 
-
         public void InsertarDatosModuloAlumnoAntes(String codigo, String fecha, String Modulo, String rut_p, String rut_a)
         {
             cmd = new MySqlCommand(String.Format("INSERT INTO modulo(codigo,fecha,rut_p,rut_a,nombre_modulo) VALUE ('" + codigo + "'," + fecha + ",'" + rut_p + "','" + rut_a + "','" + Modulo + "')"), conn);
