@@ -12,10 +12,12 @@ namespace ProyectoAvanzada.Controlador
         private Boolean usuario;
         Modelo.ConexionBD conexion;
         Modelo.Modelo modelo;
-        private string rut = "10.040.243-6";                     //Deberia haber una seleccion que te diga el rut del alumno!
-        private string clave = "4545";
+        private string rut = "1.040.243-6";                     // Deberia haber una seleccion que te diga el rut del alumno!
+        //private string rut = "19.456.386-9";
+        private string clave = "4546";
+        //private string clave = "3456";
         string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-        String rut_p = "3.433.123-9";                          //Esto se ve con la base de datos.
+        String rut_p = "18.759.157-0";                          //Esto se ve con la base de datos.
 
         public Controlador()
         {
@@ -26,27 +28,33 @@ namespace ProyectoAvanzada.Controlador
             if (usuario)
             { // El usuario ya se registro y puede seguir rindiendo mcl donde quedo
                 Console.WriteLine("El alumno esta registrado");
-                conexion = new ConexionBD();
+
                 if (realizarDiagnostico(rut))
-                { //Si ya realizo el diagnostico
-                    Console.WriteLine("El alumno ya realizo el diagnostico");
+                { // Si ya realizo el diagnostico
+                    Console.WriteLine("\nEl alumno ya realizo la Evaluación de Diagnostico");
+
                     conexion = new ConexionBD();
                     int generarCodigo = conexion.SeleccionarUltimoCodigoModulo();
                     conexion.cerrarBD();
+
                     string codigo = Convert.ToString(generarCodigo);
+                    Console.WriteLine("\nComenzar Módulo: ");
                     modelo.TrabajarModulo(rut, codigo, fecha, rut_p);
 
                 }
                 else //Si aun no realiza la evaluacion de diagnostico
                 {
-                    Console.WriteLine("El alumno aun no realiza el diagnostico");
                     conexion = new ConexionBD();
                     String rDiagnostico;
                     int codigoGenerado = conexion.SeleccionarUltimoCodigoD();
                     conexion.cerrarBD();
+
+                    Console.WriteLine("\nEl alumno aun no realiza la Evaluacion de Diagnostico");
+                    Console.WriteLine("\nComenzar Evaluación Diagnóstico:\n");
                     Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
-                    rDiagnostico = modelo.EvluacionDiagnostico();
+                    rDiagnostico = modelo.EvaluacionDiagnostico();
                     string codigo = Convert.ToString(codigoGenerado);
+
                     conexion = new ConexionBD();
                     conexion.InsertarResultadosAlumnoDiagnostico(codigo, fecha, rut_p, rut, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);
                     conexion.cerrarBD();
@@ -66,7 +74,7 @@ namespace ProyectoAvanzada.Controlador
                 String rDiagnostico;
 
                 Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
-                rDiagnostico = modelo.EvluacionDiagnostico();
+                rDiagnostico = modelo.EvaluacionDiagnostico();
                 conexion.InsertarResultadosAlumnoDiagnostico("4546", fecha, "5.323.234-1", rut, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);// Ingreso los resultados de diagnostico
                 conexion.cerrarBD();
             }
@@ -74,7 +82,9 @@ namespace ProyectoAvanzada.Controlador
 
         public Boolean realizarDiagnostico(string rut_a)
         {
+            conexion = new ConexionBD();
             Boolean realizado = conexion.diagnosticoRealizado(rut_a);
+            conexion.cerrarBD();
             return realizado;
         }
         public void IngresoDatos(String nombre, String apellido_p, String apellido_m, String curso, String clave, int fecha)
