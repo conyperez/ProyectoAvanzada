@@ -65,10 +65,12 @@ namespace ProyectoAvanzada.Modelo
 
         public void InsertarDatosModuloAlumnoDespues(String codigo, String fecha, String Modulo, String rut_p, String rut_a, String nivel_logro)
         {
-            cmd = new MySqlCommand(String.Format("UPDATE modulo SET nivel_logro_modulo = '" + nivel_logro + "' WHERE codigo = '" + codigo + "' AND fecha = '" + fecha + "' AND rut_p = '" + rut_p + "' AND rut_a = '" + rut_a + "' AND nombre_modulo = '" + Modulo + "'"), conn);
+
+            cmd = new MySqlCommand(String.Format("UPDATE modulo SET nivel_logro_modulo = '" + nivel_logro + "' WHERE codigo = '" + codigo + "'"), conn);
             cmd.ExecuteNonQuery();
 
         }
+
 
         public void InsertarDatosModuloAlumnoAntes(String codigo, String fecha, String Modulo, String rut_p, String rut_a)
         {
