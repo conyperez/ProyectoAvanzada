@@ -112,13 +112,13 @@ namespace ProyectoAvanzada.Modelo
             string resultado = null;
             if (logrado == 0 && nologrado == 0) return null;
             double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
-            Console.WriteLine("CALCULO: "+ calcular);
+            Console.WriteLine("CALCULO: " + calcular);
             // Se determian el nivel de logro en el modulo
             if (calcular >= 0 && calcular <= 25) resultado = "Por Lograr -";
             if (calcular >= 26 && calcular <= 50) resultado = "Por Lograr +";
             if (calcular >= 51 && calcular <= 75) resultado = "Logrado -";
             if (calcular >= 76 && calcular <= 100) resultado = "Logrado +";
-            Console.WriteLine("Nivel de Logro Modulo: "+ resultado);
+            Console.WriteLine("Nivel de Logro Modulo: " + resultado);
             return resultado;
         }
 
