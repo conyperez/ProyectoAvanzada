@@ -13,7 +13,7 @@ namespace ProyectoAvanzada.Modelo
         private List<string> pauta = new List<string>();
         private LeerArchivo actividad;
         private double porcentaje_actividad;
-        private int H1C=0, H1I=0, H2C=0, H2I=0; // C: correctas ; I:incorrectas
+        private int H1C = 0, H1I = 0, H2C = 0, H2I = 0; // C: correctas ; I:incorrectas
 
         public Diagnostico() { }
 
@@ -121,5 +121,4 @@ namespace ProyectoAvanzada.Modelo
         public int getH2C() { return H2C; }
         public int getH2I() { return H2I; }
     }
-
 }
