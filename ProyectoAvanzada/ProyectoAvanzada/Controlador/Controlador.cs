@@ -12,10 +12,10 @@ namespace ProyectoAvanzada.Controlador
         private Boolean usuario;
         Modelo.ConexionBD conexion;
         Modelo.Modelo modelo;
-        private string rut = "1.040.243-6";                     //Deberia haber una seleccion que te diga el rut del alumno!
-        private string clave = "4546";
+        private string rut = "10.040.243-6";                     //Deberia haber una seleccion que te diga el rut del alumno!
+        private string clave = "4545";
         string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-        String rut_p = "18.759.157-0";                          //Esto se ve con la base de datos.
+        String rut_p = "3.433.123-9";                          //Esto se ve con la base de datos.
 
         public Controlador()
         {
@@ -27,7 +27,7 @@ namespace ProyectoAvanzada.Controlador
             { // El usuario ya se registro y puede seguir rindiendo mcl donde quedo
                 Console.WriteLine("El alumno esta registrado");
                 conexion = new ConexionBD();
-                if (!realizarDiagnostico(rut))
+                if (realizarDiagnostico(rut))
                 { //Si ya realizo el diagnostico
                     Console.WriteLine("El alumno ya realizo el diagnostico");
                     conexion = new ConexionBD();
@@ -39,6 +39,7 @@ namespace ProyectoAvanzada.Controlador
                 }
                 else //Si aun no realiza la evaluacion de diagnostico
                 {
+                    Console.WriteLine("El alumno aun no realiza el diagnostico");
                     conexion = new ConexionBD();
                     String rDiagnostico;
                     int codigoGenerado = conexion.SeleccionarUltimoCodigoD();
