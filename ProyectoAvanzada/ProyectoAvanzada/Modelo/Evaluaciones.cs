@@ -15,20 +15,19 @@ namespace ProyectoAvanzada.Modelo
         public List<String> TrabajaActividad(int numActividad)
         {
 
-            actividad = archivo.LeerArchivos(numActividad);//Se almacena la actividad establecida
+            actividad = archivo.LeerArchivos(numActividad);     //Se almacena la actividad establecida
             for (int i = 0; i < actividad.Count; i++)
             {
                 //Texto
-                if (actividad.ElementAt(i).Equals("T1"))
+                if (actividad.ElementAt(i).Equals("T1") || actividad.ElementAt(i).Equals("T2") || actividad.ElementAt(i).Equals("T3"))
                 {
                     Console.WriteLine("Aqui va el Texto");
                 }
-                //Preguntas de seleccion
-                if (actividad.ElementAt(i).Equals("$"))
+                if (actividad.ElementAt(i).Equals("$")) // Enunciado
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
-                if (actividad.ElementAt(i).Equals("$@"))
+                if (actividad.ElementAt(i).Equals("$@")) // Preguntas de seleccion multiple
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
@@ -51,7 +50,7 @@ namespace ProyectoAvanzada.Modelo
                     i--;
                     respuestas.Add(Console.ReadLine());
                 }
-                if (actividad.ElementAt(i).Equals("$#"))//Preguntas de seleccion (mas de una)
+                if (actividad.ElementAt(i).Equals("$#")) // Preguntas de seleccion (mas de una)
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
@@ -61,7 +60,108 @@ namespace ProyectoAvanzada.Modelo
                 }
                 if (actividad.ElementAt(i).Equals("#\\"))
                 {
-                    //Aqui va la pregunta de Seleccion multiple
+                    while (actividad.ElementAt(i).Equals("#\\"))
+                    {
+                        i++;
+                        Console.WriteLine(actividad.ElementAt(i));
+                        i++;
+                        if (i >= actividad.Count)
+                        {
+                            break;
+                        }
+                    }
+                    i--;
+                    bool termino = false;
+                    while (!termino)
+                    {
+                        string respuesta = Console.ReadLine();
+                        if (respuesta != "*")
+                            respuestas.Add(respuesta);
+                        else
+                            termino = true;
+                    }
+                }
+                if (actividad.ElementAt(i).Equals("|"))  // Preguntas combo box
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("|\\")) 
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                    bool termino = false;
+                    while(!termino)
+                    {
+                        string respuesta = Console.ReadLine();
+                        if(respuesta != "*")
+                            respuestas.Add(respuesta);
+                        else
+                            termino = true;
+                    }
+                }
+                if (actividad.ElementAt(i).Equals("$%"))  // Terminos pareados
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("%")) 
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("%\\")) 
+                {
+                    while (actividad.ElementAt(i).Equals("%\\"))
+                    {
+                        i++;
+                        Console.WriteLine("- "+ actividad.ElementAt(i));
+                        i++;
+                        if (i >= actividad.Count)
+                        {
+                            break;
+                        }
+                    }
+                    i--;
+                }
+                if (actividad.ElementAt(i).Equals("%*"))
+                {
+                    while (actividad.ElementAt(i).Equals("%*"))
+                    {
+                        i++;
+                        Console.WriteLine("+ " + actividad.ElementAt(i));
+                        i++;
+                        if (i >= actividad.Count)
+                        {
+                            break;
+                        }
+                    }
+                    i--;
+                    respuestas.Add(Console.ReadLine());
+                }
+                if (actividad.ElementAt(i).Equals("$&"))  // Ordenar las afirmaciones
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("&")) 
+                {
+                    Console.WriteLine(actividad.ElementAt(i + 1));
+                }
+                if (actividad.ElementAt(i).Equals("&\\"))
+                {
+                    int cont = 0;
+                    while (actividad.ElementAt(i).Equals("&\\"))
+                    {
+                        i++;
+                        Console.WriteLine("- " + actividad.ElementAt(i));
+                        cont++;
+                        i++;
+                        if (i >= actividad.Count)
+                        {
+                            break;
+                        }
+                    }
+                    i--;
+                    cont--;
+                    for (int j = 0; j < cont; j++) { 
+                        respuestas.Add(Console.ReadLine());
+                    }
                 }
             }
             Console.ReadKey();
