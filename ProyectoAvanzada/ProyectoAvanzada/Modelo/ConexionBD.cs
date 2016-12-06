@@ -11,6 +11,7 @@ namespace ProyectoAvanzada.Modelo
     {
         private MySqlConnection conn;
         private MySqlCommand cmd;
+        
         public ConexionBD()
         {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
@@ -23,15 +24,12 @@ namespace ProyectoAvanzada.Modelo
 
             conn = new MySqlConnection(builder.ToString());
             conn.Open();
-
-
         }
 
         public void cerrarBD()
         {
             conn.Close();
         }
-
 
         //Inserta todos los datos del alumno
         public void InsertarDatosAlumno(String nombre, String apellido_p, String apellido_m, String curso, String rut, String clave, int fecha)
@@ -64,15 +62,17 @@ namespace ProyectoAvanzada.Modelo
             cmd = new MySqlCommand(String.Format("INSERT INTO resultado_diag(codigo,h1_c,h1_i,h2_c,h2_i,nivel_logro_h1,nivel_logro_h2,modulo) VALUE ('" + codigo + "'," + h1_c + "," + h1_i + "," + h2_c + "," + h2_i + ",'" + nivel_logro_h1 + "','" + nivel_logro_h2 + "','" + modulo + "')"), conn);
             cmd.ExecuteNonQuery();
         }
-        public void InsertarDatosModuloAlumnoDespues(String codigo, String fecha, String Modulo, String rut_p, String rut_a,String nivel_logro) //Se insertan los resultaos de diagnostico
+
+        public void InsertarDatosModuloAlumnoDespues(String codigo, String fecha, String Modulo, String rut_p, String rut_a, String nivel_logro) 
         {
-            cmd = new MySqlCommand(String.Format("UPDATE modulo SET nivel_logro_modulo='"+nivel_logro+"' WHERE codigo='" + codigo + "' AND fecha='" + fecha + "'AND rut_p='" + rut_p + "' AND rut_a='" + rut_a + "'AND nombre_modulo='" + Modulo + "'"), conn);
+            cmd = new MySqlCommand(String.Format("UPDATE modulo SET nivel_logro_modulo = '" + nivel_logro + "' WHERE codigo = '" + codigo + "' AND fecha = '" + fecha + "' AND rut_p = '" + rut_p + "' AND rut_a = '" + rut_a + "' AND nombre_modulo = '" + Modulo + "'"), conn);
             cmd.ExecuteNonQuery();
 
         }
-        public void InsertarDatosModuloAlumnoAntes(String codigo, String fecha, String Modulo, String rut_p, String rut_a) //Se insertan los resultaos de diagnostico
-        { 
-            cmd = new MySqlCommand(String.Format("INSERT INTO modulo(codigo,fecha,rut_p,rut_a,nombre_modulo) VALUE('" + codigo + "'," + fecha + ",'" + rut_p + "','" + rut_a + "','" + Modulo + "')"), conn);
+
+        public void InsertarDatosModuloAlumnoAntes(String codigo, String fecha, String Modulo, String rut_p, String rut_a) 
+        {
+            cmd = new MySqlCommand(String.Format("INSERT INTO modulo(codigo,fecha,rut_p,rut_a,nombre_modulo) VALUE ('" + codigo + "'," + fecha + ",'" + rut_p + "','" + rut_a + "','" + Modulo + "')"), conn);
             cmd.ExecuteNonQuery();
 
         }
@@ -82,9 +82,9 @@ namespace ProyectoAvanzada.Modelo
             cmd.ExecuteNonQuery();
         }
 
-        public void InsertarActividadesModeloAlumno(String codigo, int num_actividad, String niv_logro_act,string habilidad)
+        public void InsertarActividadesModeloAlumno(String codigo, int num_actividad, String niv_logro_act, string habilidad)
         {
-            cmd = new MySqlCommand(String.Format("INSERT INTO resultado_modulo(codigo,num_actividad,nivel_logro_act,habilidad) VALUE('" + codigo + "'," + num_actividad + ",'" + niv_logro_act + "','"+habilidad+"')"), conn);
+            cmd = new MySqlCommand(String.Format("INSERT INTO resultado_modulo(codigo,num_actividad,nivel_logro_act,habilidad) VALUE('" + codigo + "'," + num_actividad + ",'" + niv_logro_act + "','" + habilidad + "')"), conn);
             cmd.ExecuteNonQuery();
         }
 
@@ -102,7 +102,7 @@ namespace ProyectoAvanzada.Modelo
             cmd = new MySqlCommand(String.Format("SELECT codigo FROM alumno, diagnostico WHERE alumno.rut = '" + rut + "' AND alumno.rut = 'diagnostico.rut_a'"), conn);
             MySqlDataReader query = cmd.ExecuteReader();
 
-            return query.Read() ;
+            return query.Read();
 
         }
 
@@ -250,9 +250,9 @@ namespace ProyectoAvanzada.Modelo
         {
             cmd = new MySqlCommand(String.Format("SELECT codigo from diagnostico"), conn);
             MySqlDataReader query = cmd.ExecuteReader();
-            if (query== null)
+            if (query == null)
             {
-                return 1001; 
+                return 1001;
             }
             string codigo = null;
             while (query.Read())
