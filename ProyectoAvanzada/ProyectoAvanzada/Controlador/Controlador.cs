@@ -12,12 +12,12 @@ namespace ProyectoAvanzada.Controlador
         private Boolean usuario;
         Modelo.ConexionBD conexion;
         Modelo.Modelo modelo;
-        private string rut = "1.040.243-6";                     // Deberia haber una seleccion que te diga el rut del alumno!
+        private string rut = "10.040.243-6";                     // Deberia haber una seleccion que te diga el rut del alumno!
         //private string rut = "19.456.386-9";
-        private string clave = "4546";
+        private string clave = "4545";
         //private string clave = "3456";
         string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-        String rut_p = "18.759.157-0";                          //Esto se ve con la base de datos.
+        String rut_p = "3.433.123-9";                          //Esto se ve con la base de datos.
 
         public Controlador()
         {
