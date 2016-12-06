@@ -12,11 +12,10 @@ namespace ProyectoAvanzada.Controlador
         private Boolean usuario;
         Modelo.ConexionBD conexion;
         Modelo.Modelo modelo;
-        //Deberia haber una seleccion que te diga el rut del alumno!
-        private string rut = "1.040.243-6";
+        private string rut = "1.040.243-6";                     //Deberia haber una seleccion que te diga el rut del alumno!
         private string clave = "4546";
         string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-        String rut_p = "3.433.123-9"; //Esto se ve con la base de datos.
+        String rut_p = "18.759.157-0";                          //Esto se ve con la base de datos.
 
         public Controlador()
         {
@@ -40,22 +39,20 @@ namespace ProyectoAvanzada.Controlador
                 }
                 else //Si aun no realiza la evaluacion de diagnostico
                 {
-                    //Las variables codigo,rut_p,fecha se obtienen a partir de lo que se genera en el reporte 
                     conexion = new ConexionBD();
                     String rDiagnostico;
                     int codigoGenerado = conexion.SeleccionarUltimoCodigoD();
-                    String rut_p = "3.433.123-9";
                     conexion.cerrarBD();
-                    conexion = new ConexionBD();
                     Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
                     rDiagnostico = modelo.EvluacionDiagnostico();
                     string codigo = Convert.ToString(codigoGenerado);
-                    conexion.InsertarResultadosAlumnoDiagnostico(codigo, fecha, rut_p,rut, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);
+                    conexion = new ConexionBD();
+                    conexion.InsertarResultadosAlumnoDiagnostico(codigo, fecha, rut_p, rut, diagnostico.getH1C(), diagnostico.getH1I(), diagnostico.getH2C(), diagnostico.getH2I(), modelo.getResultadoH1(), modelo.getResultadoH2(), rDiagnostico);
                     conexion.cerrarBD();
                 }
             }
             else
-            {//En la vista debe haber una opcion para el profesor y ahi recien poder insertar datos del profesor.
+            {    //En la vista debe haber una opcion para el profesor y ahi recien poder insertar datos del profesor.
                 //el usuario debe registrarse y esos datos se deben almacenar en la bd
                 Console.WriteLine("El alumno no esta registrado");
                 //Esos datos vienen en la vista
@@ -64,7 +61,7 @@ namespace ProyectoAvanzada.Controlador
 
                 conexion.InsertarDatosProfesor("Camila", "Opazo", "Reyes", "5.323.234-1", "3243");
                 //Aqui deberia ir un if que pregunte si el alumno seguira realizando el software o se saldra de el.
-                conexion.InsertarDiagnostico("4546", fecha, "5.323.234-1", rut);//Ingreso los datos de diagnostico
+                conexion.InsertarDiagnostico("4546", fecha, "5.323.234-1", rut);   //Ingreso los datos de diagnostico
                 String rDiagnostico;
 
                 Modelo.Diagnostico diagnostico = new Modelo.Diagnostico();
