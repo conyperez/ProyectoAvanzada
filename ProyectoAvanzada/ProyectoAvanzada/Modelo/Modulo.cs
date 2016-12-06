@@ -14,6 +14,8 @@ namespace ProyectoAvanzada.Modelo
         private LeerArchivo actividad;
         private double porcentaje_actividad;
         private int correcta, incorrecta;
+        private string habilidades;
+    
 
         public Modulo() { }
 
@@ -25,7 +27,7 @@ namespace ProyectoAvanzada.Modelo
             try
             {
                 // Se toma la primera linea donde se encuentran las habilidades de la act
-                string habilidades = pauta.ElementAt(0);
+                habilidades = pauta.ElementAt(0);
                 Console.WriteLine(habilidades);
                 // Se separan las habilidades por ','
                 String[] habilidad = habilidades.Split(',');
@@ -147,5 +149,7 @@ namespace ProyectoAvanzada.Modelo
         }
 
         public double getPorcentaje() { return porcentaje_actividad; }
+
+        public string getHabilidades() { return habilidades; }
     }
 }
