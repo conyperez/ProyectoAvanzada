@@ -38,15 +38,15 @@ namespace ProyectoAvanzada.Modelo
         }
 
         //Retorna cual modulo debe realizar
-        public String EvaluacionDiagnostico() 
+        public String EvaluacionDiagnostico()
         {
-            string resultado = null; 
+            string resultado = null;
             List<String> respuestas;
             for (int i = 0; i < CantActividad; i++)             // Bucle para realizar todas las actividades.
             {
                 respuestas = evaluacion.TrabajaActividad(i);    // Contiene las respuestas que aplico el alumno
                 diagnostico.RevisarActividad(respuestas, i);    // Revisa esas respuestas con la pauta.
-                                                                
+
                 H1C = H1C + diagnostico.getH1C();               //Almacenar la cantidad de buenas y malas en cada pregunta.
                 H1I = H1I + diagnostico.getH1I();
                 H2C = H2C + diagnostico.getH2C();
@@ -56,17 +56,17 @@ namespace ProyectoAvanzada.Modelo
             // Se determina el nivel de logro para cada habilidad
             ResultadoH1 = diagnostico.determinarNivelLogroHabilidad(H1C, H1I);
             ResultadoH2 = diagnostico.determinarNivelLogroHabilidad(H2C, H2I);
-            
+
             // Se determina a que habilidad se le da mas enfasis
             if (ResultadoH1 == ResultadoH2)
             {
                 resultado = "MóduloEF";
             }
-            if (ResultadoH1 == "No Logrado")
+            else if (ResultadoH1 == "No Logrado")
             {
                 resultado = "MóduloE";
             }
-            if (ResultadoH2 == "No Logrado")
+            else if (ResultadoH2 == "No Logrado")
             {
                 resultado = "MóduloF";
             }
