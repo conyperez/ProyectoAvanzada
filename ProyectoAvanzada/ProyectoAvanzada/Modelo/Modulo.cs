@@ -24,9 +24,9 @@ namespace ProyectoAvanzada.Modelo
             this.respuestas = respuestas;
             string resultado = null;
             try
-            {  
+            {
                 habilidades = pauta.ElementAt(0);               // Se toma la primera linea donde se encuentran las habilidades de la actividad
-                Console.WriteLine("\nHabilidades: "+ habilidades);
+                Console.WriteLine("\nHabilidades: " + habilidades);
                 String[] habilidad = habilidades.Split(',');    // Se separan las habilidades por ','
 
                 correcta = 0; incorrecta = 0;
@@ -43,8 +43,8 @@ namespace ProyectoAvanzada.Modelo
                     }
                 }
                 resultado = determinarNivelLogroActividad(correcta, incorrecta);
-                Console.WriteLine("Correctas: "+ correcta);
-                Console.WriteLine("Incorrectas: "+ incorrecta);
+                Console.WriteLine("Correctas: " + correcta);
+                Console.WriteLine("Incorrectas: " + incorrecta);
                 Console.WriteLine("Resultado: " + resultado);
             }
             catch (ArgumentOutOfRangeException e)
@@ -63,7 +63,7 @@ namespace ProyectoAvanzada.Modelo
         }
 
         // Determina Logrado o No Logrado para la actividad realizada
-        public string determinarNivelLogroActividad(int buenas, int malas) 
+        public string determinarNivelLogroActividad(int buenas, int malas)
         {
             if (buenas == 0 && malas == 0) { return null; }
             porcentaje_actividad = (100 * buenas) / (buenas + malas);
@@ -78,7 +78,7 @@ namespace ProyectoAvanzada.Modelo
         }
 
         // Determina nivel de logro del modulo realizado
-        public string determinarNivelLogroModulo(List<string> resultadoModulo)  
+        public string determinarNivelLogroModulo(List<string> resultadoModulo)
         {
             // Se determina cuantos logrados y cuantos no logrados por las actividades hay
             Dictionary<string, int> contador = new Dictionary<string, int>();
@@ -111,13 +111,13 @@ namespace ProyectoAvanzada.Modelo
             string resultado = null;
             if (logrado == 0 && nologrado == 0) return null;
             double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
-            Console.WriteLine("CALCULO: "+ calcular);
+            Console.WriteLine("CALCULO: " + calcular);
             // Se determian el nivel de logro en el modulo
             if (calcular >= 0 && calcular <= 25) resultado = "Por Lograr -";
             if (calcular >= 26 && calcular <= 50) resultado = "Por Lograr +";
             if (calcular >= 51 && calcular <= 75) resultado = "Logrado -";
             if (calcular >= 76 && calcular <= 100) resultado = "Logrado +";
-            Console.WriteLine("\nNivel de Logro Modulo: "+ resultado);
+            Console.WriteLine("\nNivel de Logro Modulo: " + resultado);
             return resultado;
         }
 
