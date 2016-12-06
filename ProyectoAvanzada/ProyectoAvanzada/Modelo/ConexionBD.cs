@@ -11,7 +11,7 @@ namespace ProyectoAvanzada.Modelo
     {
         private MySqlConnection conn;
         private MySqlCommand cmd;
-        
+
         public ConexionBD()
         {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
@@ -63,17 +63,18 @@ namespace ProyectoAvanzada.Modelo
             cmd.ExecuteNonQuery();
         }
 
-        public void InsertarDatosModuloAlumnoDespues(String codigo, String fecha, String Modulo, String rut_p, String rut_a, String nivel_logro) 
+        public void InsertarDatosModuloAlumnoDespues(String codigo, String fecha, String Modulo, String rut_p, String rut_a, String nivel_logro)
         {
             cmd = new MySqlCommand(String.Format("UPDATE modulo SET nivel_logro_modulo = '" + nivel_logro + "' WHERE codigo = '" + codigo + "' AND fecha = '" + fecha + "' AND rut_p = '" + rut_p + "' AND rut_a = '" + rut_a + "' AND nombre_modulo = '" + Modulo + "'"), conn);
             cmd.ExecuteNonQuery();
 
         }
 
-        public void InsertarDatosModuloAlumnoAntes(String codigo, String fecha, String Modulo, String rut_p, String rut_a) 
+        public void InsertarDatosModuloAlumnoAntes(String codigo, String fecha, String Modulo, String rut_p, String rut_a)
         {
             cmd = new MySqlCommand(String.Format("INSERT INTO modulo(codigo,fecha,rut_p,rut_a,nombre_modulo) VALUE ('" + codigo + "'," + fecha + ",'" + rut_p + "','" + rut_a + "','" + Modulo + "')"), conn);
             cmd.ExecuteNonQuery();
+
 
         }
         public void InsertarNivLogroAlumno(String nivel_logro_modulo)
@@ -99,9 +100,8 @@ namespace ProyectoAvanzada.Modelo
         // Si el alumno realizo la evaluacion de diagnostico
         public bool diagnosticoRealizado(string rut)
         {
-            cmd = new MySqlCommand(String.Format("SELECT codigo FROM alumno, diagnostico WHERE alumno.rut = '" + rut + "' AND alumno.rut = 'diagnostico.rut_a'"), conn);
+            cmd = new MySqlCommand(String.Format("SELECT codigo FROM alumno, diagnostico WHERE alumno.rut = '" + rut + "' AND alumno.rut = diagnostico.rut_a"), conn);
             MySqlDataReader query = cmd.ExecuteReader();
-
             return query.Read();
 
         }
