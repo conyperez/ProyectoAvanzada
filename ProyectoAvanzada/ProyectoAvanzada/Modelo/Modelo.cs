@@ -61,17 +61,15 @@ namespace ProyectoAvanzada.Modelo
             //despues de realizar la revision de todas las actividades, determino el nivel de logro.
             ResultadoH1 = diagnostico.determinarNivelLogroHabilidad(H1C, H1I);
             ResultadoH2 = diagnostico.determinarNivelLogroHabilidad(H2C, H2I);
+            Console.WriteLine("RESULTADO H2= "+ResultadoH2);
             //ahora determinar cual habilidad enfocar
             if (ResultadoH1 == ResultadoH2)
             { //Si ambos son iguales
                 resultado = "MóduloEF";
-            }
-            if (ResultadoH1 =="No Logrado")
+            }else if (ResultadoH1 =="No Logrado")
             {
                 resultado = "MóduloE";
-            }
-
-            if (ResultadoH2 == "No Logrado")
+            }else if (ResultadoH2 == "No Logrado")
             {
                 resultado = "MóduloF";
             }
@@ -116,20 +114,20 @@ namespace ProyectoAvanzada.Modelo
                     if (seRealiza == "Siguiente")
                     {
                         archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo2", "Módulo 2.1");
-                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo2","Módulo 2.1");
-                        NombreModulo = "Módulo2";
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo 2","Módulo 2.1");
+                        NombreModulo = "Módulo 2";
 
                     }
                     else if(seRealiza == "Repite")
                     {
                         archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo2", "Módulo 2.2");
-                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo2", "Módulo 2.2");
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo 2", "Módulo 2.2");
                         NombreModulo = mRealizado;
                     }
                     else if (seRealiza == "Remedial")
                     {
                         archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo2", "Remedial 1");
-                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo2", "Remedial 1");
+                        archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo 2", "Remedial 1");
                         NombreModulo = mRealizado;
                     }
                 }
@@ -191,23 +189,21 @@ namespace ProyectoAvanzada.Modelo
             for (int i = 0; i < CantActividad; i++)    // Se realizan las actividades
             {
                 conexion = new ConexionBD();
-                List<string> respuestas = modulo.TrabajaActividad(i);
+                List<string> respuestas =new List<string>(modulo.TrabajaActividad(i));
                 logros.Add(evaluar.RevisarActividad(respuestas, i));
                 conexion.cerrarBD();
                 conexion = new ConexionBD();
-                conexion.InsertarActividadesModeloAlumno(codigo,i,logros.ElementAt(i),evaluar.getHabilidades()); //Inserto datos por cada actividad realizada en el modulo
+                conexion.InsertarActividadesModeloAlumno(codigo,i+1,logros.ElementAt(i),evaluar.getHabilidades()); //Inserto datos por cada actividad realizada en el modulo
                 conexion.cerrarBD();
             }
             for (int j=0;j< logros.Count;j++)
             {
-                Console.WriteLine(logros.ElementAt(j).ToString());
+                Console.WriteLine(logros.ElementAt(j));
             }
             string nivelLogro = evaluar.determinarNivelLogroModulo(logros);
-            Console.WriteLine("EL NIVEL DE LOGRO ES="+nivelLogro);
             conexion.cerrarBD();
             conexion = new ConexionBD();
             conexion.InsertarDatosModuloAlumnoDespues(codigo,fecha, NombreModulo, rut_p,rut,nivelLogro);
-            Console.WriteLine(nivelLogro);
             Console.ReadKey();
         }
 
