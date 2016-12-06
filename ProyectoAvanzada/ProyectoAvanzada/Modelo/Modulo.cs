@@ -15,7 +15,7 @@ namespace ProyectoAvanzada.Modelo
         private double porcentaje_actividad;
         private int correcta, incorrecta;
         private string habilidades;
-    
+
 
         public Modulo() { }
 
@@ -101,23 +101,24 @@ namespace ProyectoAvanzada.Modelo
             int nologrado = 0;
             foreach (KeyValuePair<string, int> item in contador)
             {
-                if (item.Key.Equals("logrado")) logrado = item.Value;
-                if (item.Key.Equals("no logrado")) nologrado = item.Value;
-                Console.WriteLine(string.Format("{0} - {1}", item.Key, item.Value));
+                if (item.Key.Equals("Logrado")) logrado = item.Value;
+                if (item.Key.Equals("No Logrado")) nologrado = item.Value;
+                Console.WriteLine(string.Format("{0} -> {1}", item.Key, item.Value));
             }
+
             Console.WriteLine("Logrado = " + logrado);
             Console.WriteLine("No Logrado = " + nologrado);
 
             string resultado = null;
             if (logrado == 0 && nologrado == 0) return null;
             double calcular = (100 * logrado) / (logrado + nologrado);  // Se saca el porcentaje de logro
-
+            Console.WriteLine("CALCULO: "+ calcular);
             // Se determian el nivel de logro en el modulo
-            if (calcular >= 0 || calcular <= 25) resultado = "Por Lograr -";
-            if (calcular >= 26 || calcular <= 50) resultado = "Por Lograr +";
-            if (calcular >= 51 || calcular <= 75) resultado = "Logrado -";
-            if (calcular >= 76 || calcular <= 100) resultado = "Logrado +";
-
+            if (calcular >= 0 && calcular <= 25) resultado = "Por Lograr -";
+            if (calcular >= 26 && calcular <= 50) resultado = "Por Lograr +";
+            if (calcular >= 51 && calcular <= 75) resultado = "Logrado -";
+            if (calcular >= 76 && calcular <= 100) resultado = "Logrado +";
+            Console.WriteLine("Nivel de Logro Modulo: "+ resultado);
             return resultado;
         }
 
