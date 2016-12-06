@@ -85,14 +85,14 @@ namespace ProyectoAvanzada.Modelo
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
-                if (actividad.ElementAt(i).Equals("|\\")) 
+                if (actividad.ElementAt(i).Equals("|\\"))
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                     bool termino = false;
-                    while(!termino)
+                    while (!termino)
                     {
                         string respuesta = Console.ReadLine();
-                        if(respuesta != "*")
+                        if (respuesta != "*")
                             respuestas.Add(respuesta);
                         else
                             termino = true;
@@ -102,16 +102,16 @@ namespace ProyectoAvanzada.Modelo
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
-                if (actividad.ElementAt(i).Equals("%")) 
+                if (actividad.ElementAt(i).Equals("%"))
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
-                if (actividad.ElementAt(i).Equals("%\\")) 
+                if (actividad.ElementAt(i).Equals("%\\"))
                 {
                     while (actividad.ElementAt(i).Equals("%\\"))
                     {
                         i++;
-                        Console.WriteLine("- "+ actividad.ElementAt(i));
+                        Console.WriteLine("- " + actividad.ElementAt(i));
                         i++;
                         if (i >= actividad.Count)
                         {
@@ -139,7 +139,7 @@ namespace ProyectoAvanzada.Modelo
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
-                if (actividad.ElementAt(i).Equals("&")) 
+                if (actividad.ElementAt(i).Equals("&"))
                 {
                     Console.WriteLine(actividad.ElementAt(i + 1));
                 }
@@ -158,8 +158,9 @@ namespace ProyectoAvanzada.Modelo
                         }
                     }
                     i--;
-                    Console.WriteLine("CONTADOR: "+ cont);
-                    for (int j = 0; j < cont; j++) { 
+                    Console.WriteLine("CONTADOR: " + cont);
+                    for (int j = 0; j < cont; j++)
+                    {
                         respuestas.Add(Console.ReadLine());
                     }
                 }
