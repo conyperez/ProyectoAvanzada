@@ -8,13 +8,13 @@ namespace ProyectoAvanzada.Modelo
 {
     public class Evaluaciones
     {
-        private List<string> respuestas = new List<string>();
+        private List<string> respuestas;
         private List<string> actividad = new List<string>();
         private LeerArchivo archivo;
 
         public List<String> TrabajaActividad(int numActividad)
         {
-
+            respuestas = new List<string>();
             actividad = archivo.LeerArchivos(numActividad);     //Se almacena la actividad establecida
             for (int i = 0; i < actividad.Count; i++)
             {
@@ -149,8 +149,8 @@ namespace ProyectoAvanzada.Modelo
                     while (actividad.ElementAt(i).Equals("&\\"))
                     {
                         i++;
-                        Console.WriteLine("- " + actividad.ElementAt(i));
                         cont++;
+                        Console.WriteLine("- " + actividad.ElementAt(i));
                         i++;
                         if (i >= actividad.Count)
                         {
@@ -158,7 +158,7 @@ namespace ProyectoAvanzada.Modelo
                         }
                     }
                     i--;
-                    cont--;
+                    Console.WriteLine("CONTADOR: "+ cont);
                     for (int j = 0; j < cont; j++) { 
                         respuestas.Add(Console.ReadLine());
                     }
