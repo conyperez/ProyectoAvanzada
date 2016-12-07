@@ -46,13 +46,16 @@ namespace ProyectoAvanzada.Modelo
             {
                 respuestas = evaluacion.TrabajaActividad(i);    // Contiene las respuestas que aplico el alumno
                 diagnostico.RevisarActividad(respuestas, i);    // Revisa esas respuestas con la pauta.
-
-                H1C = H1C + diagnostico.getH1C();               //Almacenar la cantidad de buenas y malas en cada pregunta.
-                H1I = H1I + diagnostico.getH1I();
-                H2C = H2C + diagnostico.getH2C();
-                H2I = H2I + diagnostico.getH2I();
-
             }
+            H1C = diagnostico.getH1C();               //Almacenar la cantidad de buenas y malas en cada pregunta.
+            H1I = diagnostico.getH1I();
+            H2C = diagnostico.getH2C();
+            H2I = diagnostico.getH2I();
+            Console.WriteLine("HOLA 2");
+            Console.WriteLine("H1C: " + H1C);
+            Console.WriteLine("H1I: " + H1I);
+            Console.WriteLine("H2C: " + H2C);
+            Console.WriteLine("H2I: " + H2I);
             // Se determina el nivel de logro para cada habilidad
             ResultadoH1 = diagnostico.determinarNivelLogroHabilidad(H1C, H1I);
             ResultadoH2 = diagnostico.determinarNivelLogroHabilidad(H2C, H2I);
@@ -94,8 +97,8 @@ namespace ProyectoAvanzada.Modelo
                 string hacerModulo = conexion.resultadoDiagnostico(rut);
                 conexion.cerrarBD();
 
-                archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", hacerModulo);
-                archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo1", "Módulo 1.1", hacerModulo);
+                archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo 1", "Módulo 1.1", hacerModulo);
+                archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo 1", "Módulo 1.1", hacerModulo);
                 NombreModulo = hacerModulo;
 
             }
@@ -109,7 +112,7 @@ namespace ProyectoAvanzada.Modelo
                     {
                         archivos_actividad = new LeerArchivo("Quinto Básico", "Módulo 2", "Módulo 2.1");
                         archivos_pauta = new LeerArchivo("Quinto Básico", "Módulo 2", "Módulo 2.1");
-                        NombreModulo = "Módulo2";
+                        NombreModulo = "Módulo 2";
 
                     }
                     else if (seRealiza == "Repite")
@@ -129,6 +132,7 @@ namespace ProyectoAvanzada.Modelo
                 else
                 {
                     String[] separarUltimo = mRealizado.Split(' ');                  // Separa el nombre del ultimo modulo realizado: Ej: "Modulo 1.2" -> [Modulo, 1.2] 
+                    Console.WriteLine(separarUltimo[1]);
                     double numModulo = Convert.ToDouble(separarUltimo[1]);           // Pasa a double el "1.2"
                     String[] num = separarUltimo[1].Split('.');                      // Separa el numero: "1.2" -> [1, 2]
                     int numM = Convert.ToInt32(num[0]);                              // Pasa a int "1"
@@ -202,6 +206,11 @@ namespace ProyectoAvanzada.Modelo
 
         public String getResultadoH1() { return ResultadoH1; }
         public String getResultadoH2() { return ResultadoH2; }
+
+        public int getH1C() { return this.H1C; }
+        public int getH1I() { return this.H1I; }
+        public int getH2C() { return this.H2C; }
+        public int getH2I() { return this.H2I; }
 
     }
 }
