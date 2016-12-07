@@ -13,9 +13,14 @@ namespace ProyectoAvanzada.Modelo
         private List<string> pauta = new List<string>();
         private LeerArchivo actividad;
         private double porcentaje_actividad;
-        private int H1C = 0, H1I = 0, H2C = 0, H2I = 0; // C: correctas ; I:incorrectas
+        private int H1C, H1I, H2C, H2I;        // C: correctas ; I:incorrectas
 
-        public Diagnostico() { }
+        public Diagnostico() {
+            this.H1C = 0;
+            this.H1I = 0;
+            this.H2C = 0;
+            this.H2I = 0;
+        }
 
         public void RevisarActividad(List<String> respuestas, int numAct)
         {
@@ -31,15 +36,24 @@ namespace ProyectoAvanzada.Modelo
                 String[] habilidad = habilidades.Split(',');
 
                 List<String> revision = new List<string>();
-                for (int i = 0; i < respuestas.Count; i++)
+                for (int i = 1; i < pauta.Count; i++)
                 { // Aca se cuenta correctas e incorrectas por habilidad
-                    if (pauta.ElementAt(i + 1).Equals(respuestas.ElementAt(i)))
-                    {
-                        revision.Add("C");
-                    }
-                    else
+                    if((i-1) == respuestas.Count)
                     {
                         revision.Add("I");
+                        Console.WriteLine("Incorrecta");
+                    } else
+                    {
+                        if (pauta.ElementAt(i).Equals(respuestas.ElementAt(i - 1)))
+                        {
+                            revision.Add("C");
+                            Console.WriteLine("Correcta");
+                        }
+                        else
+                        {
+                            revision.Add("I");
+                            Console.WriteLine("Incorrecta");
+                        }
                     }
                 }
                 // Se determina el resultado
@@ -73,7 +87,7 @@ namespace ProyectoAvanzada.Modelo
                     }
                     else
                     {
-                        if (revision.ElementAt(i) == "I") { H1I++; }
+                        if (revision.ElementAt(i) == "I") { this.H1I++; }
                     }
                 }
                 else
@@ -84,7 +98,7 @@ namespace ProyectoAvanzada.Modelo
                     }
                     else
                     {
-                        if (revision.ElementAt(i) == "I") { H2I++; }
+                        if (revision.ElementAt(i) == "I") { this.H2I++; }
                     }
                 }
             }
@@ -93,7 +107,9 @@ namespace ProyectoAvanzada.Modelo
         public string determinarNivelLogroHabilidad(int buenas, int malas) // Determina Logrado o No Logrado de la habilidad
         {
             if (buenas == 0 && malas == 0) { return null; }
+            Console.WriteLine("Buenas: " + buenas + "\nMalas: "+ malas);
             porcentaje_actividad = (100 * buenas) / (buenas + malas);
+            Console.WriteLine("CALCULO: "+ porcentaje_actividad);
             if (porcentaje_actividad > 60)
             {
                 return "Logrado";
@@ -116,9 +132,14 @@ namespace ProyectoAvanzada.Modelo
 
         public double getPorcentH() { return porcentaje_actividad; }
 
-        public int getH1C() { return H1C; }
-        public int getH1I() { return H1I; }
-        public int getH2C() { return H2C; }
-        public int getH2I() { return H2I; }
+        public int getH1C() { return this.H1C; }
+        public int getH1I() { return this.H1I; }
+        public int getH2C() { return this.H2C; }
+        public int getH2I() { return this.H2I; }
+
+        public void setH1C(int value) { this.H1C = value; }
+        public void setH1I(int value) { this.H1I = value; }
+        public void setH2C(int value) { this.H2C = value; }
+        public void setH2I(int value) { this.H2I = value; }
     }
 }
